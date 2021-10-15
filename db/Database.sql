@@ -1,5 +1,16 @@
 CREATE DATABASE IF NOT EXISTS agenda_lunar;
 USE agenda_lunar;
+/*Drop tables*/
+DROP TABLE IF EXISTS etiqueta_publicacion;
+DROP TABLE IF EXISTS etiqueta;
+DROP TABLE IF EXISTS comentario;
+DROP TABLE IF EXISTS publicacion;
+DROP TABLE IF EXISTS cultivo;
+DROP TABLE IF EXISTS lugar;
+DROP TABLE IF EXISTS eventos;
+DROP TABLE IF EXISTS siembra;
+DROP TABLE IF EXISTS usuario;
+
 /*usuario*/
 DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario (
@@ -46,7 +57,7 @@ DROP TABLE IF EXISTS eventos;
 CREATE TABLE eventos(
     id int NOT NULL AUTO_INCREMENT,
     id_usuario varchar(255) NOT NULL,
-    id_siembra int NOT NULL,
+    id_siembra int ,
     nombre varchar(255) NOT NULL,
     fechaEvento DATE NOT NULL,
     descripcion varchar(5000),
@@ -99,22 +110,8 @@ CREATE TABLE etiqueta_publicacion(
     FOREIGN KEY (id_publicacion) REFERENCES publicacion(id)
 );
 
-/*proyecto*/
-DROP TABLE IF EXISTS proyecto;
-CREATE TABLE proyecto(
-    id int NOT NULL AUTO_INCREMENT,
-    id_usuario varchar(255) NOT NULL,
-    nombre varchar(500) NOT NULL,
-    fechaInicio DATE NOT NULL,
-    descripcion varchar(5000),
-    tipo varchar(255),
-    activo BOOLEAN NOT NULL,
-    fechaTerminado DATE,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(nombreusuario)
-);
+/*plugin
 
-/*plugin*/
 DROP TABLE IF EXISTS plugin;
 CREATE TABLE plugin(
     id int NOT NULL AUTO_INCREMENT,
@@ -129,7 +126,7 @@ CREATE TABLE plugin(
     FOREIGN KEY (id_siembra) REFERENCES siembra(id)
 );
 
-/*tipoEvento*/
+/*tipoEvento
 DROP TABLE IF EXISTS tipoEvento;
 CREATE TABLE tipoEvento(
     id int NOT NULL AUTO_INCREMENT,
@@ -143,3 +140,4 @@ CREATE TABLE tipoEvento(
     FOREIGN KEY (id_tipo_proyecto) REFERENCES proyecto(id),
     FOREIGN KEY (id_siembra) REFERENCES siembra(id)
 );
+*/
