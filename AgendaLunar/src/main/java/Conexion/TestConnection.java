@@ -7,6 +7,7 @@ package Conexion;
 
 import POJOS.Comentario;
 import POJOS.Etiqueta;
+import POJOS.Evento;
 import POJOS.Publicacion;
 import POJOS.Usuario;
 import java.sql.Connection;
@@ -30,7 +31,10 @@ public class TestConnection {
         //pruebaUsuario(connection);
         
         //Prueba publicaciones
-        pruebaPublicacion(connection);
+       // pruebaPublicacion(connection);
+       
+       //Prueba Eventos
+       pruebaEventos(connection);
     }
     
     private static void pruebaUsuario(Connection connection){
@@ -139,6 +143,14 @@ public class TestConnection {
         
     }
     
+    private static void pruebaEventos(Connection connection){
+        ControlDBEventos controlE = new ControlDBEventos(connection);
+        
+        //get eventos por usuario y mes y anio
+        List<Evento> eventos = controlE.getTodosEventosPorIdUsuarioPorMes("Admin", 7, 2021);
+        mostrarEventos(eventos);
+    }
+    
     private static void mostrarPublicaciones(List<Publicacion> publicaciones){
         for (Publicacion publicacion : publicaciones) {
             System.out.println("---------------");
@@ -174,6 +186,17 @@ public class TestConnection {
         for (Etiqueta etiqueta : etiquetas) {
             System.out.println("ID Etiqueta: " + etiqueta.getIdEtiqueta());
             System.out.println("Valor: " + etiqueta.getValor());
+        }
+    }
+    
+    private static void mostrarEventos(List<Evento> eventos){
+        for (Evento evento : eventos) {
+            System.out.println("-------------");
+            System.out.println("Nombre: "+ evento.getNombre());
+            System.out.println("Tipo: "+ evento.getTipo());
+            System.out.println("Usuario: "+ evento.getIdUsuario());
+            System.out.println("ID Siembra: "+ evento.getIdSiembra());
+            System.out.println("Dsscripcion: "+ evento.getDescripcion());            
         }
     }
 }
