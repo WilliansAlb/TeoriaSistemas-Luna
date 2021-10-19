@@ -1,14 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
+
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Oswald', sans-serif;
 }
 
 body{
-    background-image: url(../img/fondo2.jpg);
+    background-image: url(../img/star-sky.jpg);
     width: 100%;
     height: 100%;
     position: absolute;
@@ -16,7 +15,7 @@ body{
     background-size: cover;
 }
 #fondo{
-    background-image: url(../img/fondo2.jpg);
+    background-image: url(../img/star-sky.jpg);
     width: 100%;
     height: 100%;
     position: absolute;
@@ -36,8 +35,14 @@ body{
     align-items: center;
     justify-content: center;
     background-image: url(../img/crateres2.jpg);
-    /*background-size: cover;*/
-    padding: 5rem 7rem;
+    background-size: cover;
+    padding: 7rem 7rem;
+}
+
+.sombreado{
+    box-shadow: 1px 1px 42px -2px rgb(147 147 147);
+    -webkit-box-shadow: 1px 1px 42px -2px rgb(147 147 147);
+    -moz-box-shadow: 1px 1px 42px -2px rgba(147,147,147,1);
 }
 
 .contenedor input{
@@ -64,7 +69,8 @@ body{
       border: none;
       border-radius: 5px;
       box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-      background: green;
+      background: #303030;
+      color: white;
   }
   
   button, button span {
@@ -79,7 +85,7 @@ body{
   
   button .icon {
       position: absolute;
-      border-left: 1px solid #c41b1b;
+      border-left: 1px solid white;
       transform: translateX(110px);
       height: 40px;
       width: 40px;
@@ -93,9 +99,6 @@ body{
       fill: #eee;
   }
   
-  button:hover {
-      background: #ff3636;
-  }
   
   button:hover .text {
       color: transparent;
