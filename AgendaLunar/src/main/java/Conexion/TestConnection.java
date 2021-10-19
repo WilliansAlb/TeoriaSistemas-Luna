@@ -5,8 +5,12 @@
  */
 package Conexion;
 
+import POJOS.Comentario;
+import POJOS.Etiqueta;
+import POJOS.Publicacion;
 import POJOS.Usuario;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,8 +27,10 @@ public class TestConnection {
         Connection connection = connect.getConnection();
         
         //Prueba conexion Usuarios        
-        pruebaUsuario(connection);
+        //pruebaUsuario(connection);
         
+        //Prueba publicaciones
+        pruebaPublicacion(connection);
     }
     
     private static void pruebaUsuario(Connection connection){
@@ -83,4 +89,91 @@ public class TestConnection {
         
     }
     
+    private static void pruebaPublicacion(Connection connection){
+        ControlDBPublicacion controlDBP = new ControlDBPublicacion(connection);
+        
+        
+        // Get publicaciones segun nombre usuario
+//        String nombreUsuario = "Admin";
+//        List<Publicacion> publicaciones = controlDBP.getTodasPublicacionesPorNombreUsuario(nombreUsuario);
+//        mostrarPublicaciones(publicaciones);
+        
+        //Insertar Publicacion 
+//        List<String> etiquetas = new ArrayList<>();
+//        etiquetas.add("1");
+//        etiquetas.add("3");
+//        
+//        String fecha = "2021-07-12";
+//        
+//        String contenido = "El contenido de la publicacion es esto";
+//        
+//        String nombreUsuario = "Admin";
+//        
+//        boolean exito = controlDBP.insertarPublicacion(nombreUsuario, contenido, fecha, etiquetas);
+//        if (exito) {
+//            System.out.println("Insertado Con exito");
+//        }else{
+//            System.out.println("Insersion fallida");
+//        }
+
+        //Insertar Comentario
+//        String idPublicacion = "11";
+//        
+//        String fecha = "2021-07-12";
+//        
+//        String contenido = "El contenido del comentario es corto";
+//        
+//        String nombreUsuario = "cbroadfield0";
+//        
+//        boolean exito = controlDBP.insertarComentario(nombreUsuario, idPublicacion, contenido, fecha);
+//        if (exito) {
+//            System.out.println("Comentario Insertado Con exito");
+//        }else{
+//            System.out.println("Comentario: Insersion fallida");
+//        }
+
+        //Mostrar Todas las etiquetas        
+        List<Etiqueta> etiquetas = new ArrayList<>();
+        etiquetas = controlDBP.getTodasEtiquetas();
+        mostrarTodasEtiquetas(etiquetas);
+        
+    }
+    
+    private static void mostrarPublicaciones(List<Publicacion> publicaciones){
+        for (Publicacion publicacion : publicaciones) {
+            System.out.println("---------------");
+            System.out.println("ID publ: " + publicacion.getIdPublicacion());
+            System.out.println("ID usuario: " + publicacion.getNombreUsuario());
+            System.out.println("Fecha: " + publicacion.getFecha());
+            System.out.println("Contenido: " + publicacion.getContenido());
+            
+            mostrarEtiquetasPublicacion(publicacion.getEtiquetas());
+            mostrarComentarios(publicacion.getComentarios());
+        }
+    }
+    
+    private static void mostrarComentarios(List<Comentario> comentarios){
+        System.out.println("    *******Comentarios*******");            
+        for (Comentario comentario : comentarios) {            
+            System.out.println("    IdPublicacion:"+comentario.getIdPublicacion());
+            System.out.println("    Id Usuario:"+comentario.getNombreUsuario());
+            System.out.println("    Fecha:"+comentario.getFecha());
+            System.out.println("    Contenido:"+comentario.getContenido());
+        }
+    }
+    
+    private static void mostrarEtiquetasPublicacion(List<String> etiquetas){
+        System.out.println("    //////Etiquetas//////");
+        for (String etiqueta : etiquetas) {            
+            System.out.println("    Valor:"+etiqueta);
+        }    
+    }
+    
+    private static void mostrarTodasEtiquetas(List<Etiqueta> etiquetas){
+        System.out.println("//////Etiquetas//////");
+        for (Etiqueta etiqueta : etiquetas) {
+            System.out.println("ID Etiqueta: " + etiqueta.getIdEtiqueta());
+            System.out.println("Valor: " + etiqueta.getValor());
+        }
+    }
 }
