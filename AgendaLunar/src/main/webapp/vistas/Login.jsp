@@ -25,7 +25,14 @@
         <link rel="stylesheet" href="../assets/css/gradient-navbar-1.css">
         <link rel="stylesheet" href="../assets/css/gradient-navbar.css">
     </head>
-    <body><nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
+    <body>
+        <%
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            if (session.getAttribute("usuario") != null) {
+                response.sendRedirect("/AgendaLunar");
+            }
+        %>
+        <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
             <div class="container"><a class="navbar-brand" href="../index.jsp"><img src="../assets/img/icono1.png" width="40px">Agenda Lunar</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
@@ -37,6 +44,7 @@
                 </div>
             </div>
         </nav>
+        <form action="C_Login" method="post">
         <div class="contenedor" id="luna" style="position:relative;top:370px;opacity: 0;">
             <h1 style="color:#303030;">AGENDA LUNAR</h1>
             <div class="omrs-input-group">
@@ -54,6 +62,7 @@
             <button class="noselect"><span class='text' style="font-family: 'Cabin';">ENTRAR</span><span class="icon"><img src="../assets/img/moon.svg" alt="luna" width="30em"></span></button>
             <a href="#" style="margin-top: 0.5em;font-family: 'Cabin';">OLVIDE MI CONTRASEÑA</a>
         </div>
+        </form>
         <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="../assets/js/grayscale.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
