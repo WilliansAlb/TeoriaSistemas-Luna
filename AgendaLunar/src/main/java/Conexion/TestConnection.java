@@ -6,7 +6,10 @@
 package Conexion;
 
 import POJOS.Comentario;
+import POJOS.Cultivo;
 import POJOS.Etiqueta;
+import POJOS.Evento;
+import POJOS.Lugar;
 import POJOS.Publicacion;
 import POJOS.Usuario;
 import java.sql.Connection;
@@ -30,7 +33,10 @@ public class TestConnection {
         //pruebaUsuario(connection);
         
         //Prueba publicaciones
-        pruebaPublicacion(connection);
+       // pruebaPublicacion(connection);
+       
+       //Prueba Eventos
+       pruebaEventos(connection);
     }
     
     private static void pruebaUsuario(Connection connection){
@@ -139,6 +145,56 @@ public class TestConnection {
         
     }
     
+    private static void pruebaEventos(Connection connection){
+        ControlDBEventos controlE = new ControlDBEventos(connection);
+        
+        //get eventos por usuario y mes y anio
+//        List<Evento> eventos = controlE.getTodosEventosPorIdUsuarioPorMes("Admin", 7, 2021);
+//        mostrarEventos(eventos);
+        
+        //Insertar un evento Siembra
+//        String idUsuario = "Admin";
+//        String nombre = "Siembra de cocos";
+//        String fechaEvento = "2021-10-19";
+//        String descripcion = "Se sembraron cocos en coatepeque";
+//        String tipo = "siembra";
+//        String idLugar = "1";
+//        String idCultivo = "9";
+//        
+//        boolean exito = controlE.insertarEventoSiembra(idUsuario, nombre, fechaEvento, descripcion, tipo, idLugar, idCultivo);
+//        if (exito) {
+//            System.out.println("Se inserto Con exito");
+//        }else{
+//            System.out.println("Fallo al insertar");
+//        }
+        
+        //Insertar un evento No siembra
+//        String idUsuario2 = "Admin";
+//        String nombre2 = "Cumpleaños del pepe";
+//        String fechaEvento2 = "2021-10-19";
+//        String descripcion2 = "Es el cumpleaños de el pepe";
+//        String tipo2 = "cumpleaños";
+//        boolean exito2 = controlE.insertarEventoNoSiembra(idUsuario2, nombre2, fechaEvento2, descripcion2, tipo2);
+//        if (exito2) {
+//            System.out.println("Se inserto Con exito");
+//        }else{
+//            System.out.println("Fallo al insertar");
+//        }
+        
+        //Get todos los tipos de cultivo
+//        List<Cultivo> cultivos = controlE.getTodosLosTiposDeCultivos();
+//        mostrarCultivos(cultivos);
+        
+        //Get todos los lugares
+//        List<Lugar> lugares = controlE.getTodosLugares();
+//        mostrarLugares(lugares);
+        
+        
+        //Get recomendaciones
+        
+        
+    }
+    
     private static void mostrarPublicaciones(List<Publicacion> publicaciones){
         for (Publicacion publicacion : publicaciones) {
             System.out.println("---------------");
@@ -174,6 +230,35 @@ public class TestConnection {
         for (Etiqueta etiqueta : etiquetas) {
             System.out.println("ID Etiqueta: " + etiqueta.getIdEtiqueta());
             System.out.println("Valor: " + etiqueta.getValor());
+        }
+    }
+    
+    private static void mostrarEventos(List<Evento> eventos){
+        for (Evento evento : eventos) {
+            System.out.println("-------------");
+            System.out.println("Nombre: "+ evento.getNombre());
+            System.out.println("Tipo: "+ evento.getTipo());
+            System.out.println("Usuario: "+ evento.getIdUsuario());
+            System.out.println("ID Siembra: "+ evento.getIdSiembra());
+            System.out.println("Dsscripcion: "+ evento.getDescripcion());            
+        }
+    }
+    
+    private static void mostrarCultivos(List<Cultivo> cultivos){
+        for (Cultivo cultivo : cultivos) {
+            System.out.println("---------------");
+            System.out.println("IdCultivo: " + cultivo.getIdCultivo());
+            System.out.println("Tipo: " + cultivo.getTipo());
+        }
+    }
+    
+    private static void mostrarLugares(List<Lugar> lugares){
+        for (Lugar lugar : lugares) {
+            System.out.println("************************");
+            System.out.println("IdLugar" + lugar.getIdLugar());
+            System.out.println("Nombre" + lugar.getNombre());
+            System.out.println("Ubicacion" + lugar.getUbicacion());
+            System.out.println("Clima" + lugar.getClima());
         }
     }
 }
