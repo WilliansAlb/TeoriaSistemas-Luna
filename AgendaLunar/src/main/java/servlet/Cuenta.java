@@ -77,6 +77,7 @@ String ID;
         Usuario user=control.getUsuarioPorNombreUsuario(ID);
         
         request.setAttribute("DATOS_CUENTA", user);
+        request.getSession().setAttribute("usuario", ID);
         request.getRequestDispatcher("vistas/Cuenta.jsp").forward(request, response);
         
         
