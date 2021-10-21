@@ -23,6 +23,12 @@
                 </head>
 
                 <body>
+                    <%        
+                        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+                        if (session.getAttribute("usuario") == null) {
+                            response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
+                        }  
+                    %>
                     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
                     <div id="main-content" class="blog-page">
@@ -31,14 +37,9 @@
                                     aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
                                 <div class="collapse navbar-collapse" id="navbarResponsive">
                                     <ul class="navbar-nav ms-auto">
-                                        <<<<<<< HEAD <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS INFO</a></li>
-                                            <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Login</a></li>
-                                            <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
-                                            =======
                                             <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS INFO</a></li>
                                             <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Login</a></li>
                                             <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
-                                            >>>>>>> aef001f53b93a417a4ddc995c2fd034e8642aaf6
                                     </ul>
                                 </div>
                             </div>
@@ -107,7 +108,7 @@
                                                     <li class="row clearfix">
                                                         <div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail" src="https://cdn.pixabay.com/photo/2021/06/07/13/46/user-6318008_1280.png" alt="Awesome Image"></div>
                                                         <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                                            <h5 class="m-b-0">William UmaÃ±a</h5>
+                                                            <h5 class="m-b-0">William UmaÃÂ±a</h5>
                                                             <p> Yo solo se que no se nada...</p>
                                                             <ul class="list-inline">
                                                                 <li><a href="javascript:void(0);">Mar 20 2018</a></li>
