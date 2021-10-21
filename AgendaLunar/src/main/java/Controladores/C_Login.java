@@ -38,12 +38,14 @@ public class C_Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        try{
+           
            String nombreUsuario = request.getParameter("usuario");
            String contrasenia = request.getParameter("password");
-           Usuario usuario = controlDBUsuario.getUsuarioPorNombreUsuarioYPassword(nombreUsuario, contrasenia);
+           Usuario usuario = controlDBUsuario.getUsuarioPorNombreUsuarioYPassword(nombreUsuario, contrasenia);//obtener un usuario
            if (usuario != null) {
                request.getSession().setAttribute("usuario", usuario.getNombreUsuario());
                request.getSession().setAttribute("password", usuario.getPassword());
+               request.getSession().setAttribute("tipo", usuario.getTipo());
                response.sendRedirect("/AgendaLunar");
            }else{
                requestError(request,response);
