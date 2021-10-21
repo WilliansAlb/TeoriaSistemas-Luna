@@ -109,7 +109,7 @@ public class ControlDBPublicacion {
     public List<Comentario> getTodosComentariosPorIdPublicacion(String idPublicacion) {
         List<Comentario> comentarios = new ArrayList<>();
 
-        String query = "SELECT * FROM comentario WHERE id_publicacion = ?";
+        String query = "SELECT c.id,u.nombre,c.id_publicacion,c.comentario,c.fecha FROM comentario AS c INNER JOIN usuario AS u WHERE id_publicacion = ? AND u.nombreusuario = c.id_usuario ORDER BY c.fecha ASC";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
 

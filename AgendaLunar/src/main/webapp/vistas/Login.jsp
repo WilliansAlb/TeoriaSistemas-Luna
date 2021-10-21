@@ -37,9 +37,9 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item nav-link"><a class="nav-link" href="../index.jsp">TS INFO</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Blog.html">BLOG</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="Blog.jsp">BLOG</a></li>
                         <li class="nav-item nav-link"><a class="nav-link active" href="Login.jsp">Login</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.html">Cuenta</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
                     </ul>
                 </div>
             </div>

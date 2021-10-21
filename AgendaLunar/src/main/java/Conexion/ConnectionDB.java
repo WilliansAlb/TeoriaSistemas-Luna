@@ -17,7 +17,7 @@ public class ConnectionDB {
     
     public static final String URL = "jdbc:mysql://localhost:3306/agenda_lunar?autoReconect=true&useSSL=false&serverTimezone=UTC";//auto reconnect
     public static final String USER = "root";//a test user, u can use a personal user
-    public static final String PASSWORD = "5177";//my password for the user
+    public static final String PASSWORD = "admin";//my password for the user
 
     public Connection getConnection() {
         Connection connection = null;
@@ -25,7 +25,7 @@ public class ConnectionDB {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = (Connection) DriverManager.getConnection(URL, USER, PASSWORD);           
         } catch (Exception e) {
-            System.out.println("ERROR, " + e.getMessage());            
+            System.out.println("ERROR DB, " + e.getMessage());            
         }
         return connection;
     }
