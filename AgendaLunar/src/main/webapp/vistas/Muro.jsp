@@ -52,11 +52,11 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item nav-link"><a class="nav-link active" href="#titulo_luna">TS INFO</a></li>
-                    <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.html">Cuenta</a></li>
+                    <li class="nav-item nav-link"><a class="nav-link" href="/Cuenta>Cuenta</a></li>
                      <li class="nav-item nav-link"><a class="nav-link" href="index.jsp">Cerrar Session</a></li>
                 </ul>
             </div>
-        </div>
+        </div>sss
     </nav>
     <br>
     <br>
