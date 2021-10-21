@@ -46,7 +46,11 @@ public class C_Login extends HttpServlet {
                request.getSession().setAttribute("usuario", usuario.getNombreUsuario());
                request.getSession().setAttribute("password", usuario.getPassword());
                request.getSession().setAttribute("tipo", usuario.getTipo());
-               response.sendRedirect("/AgendaLunar");
+               if (usuario.getTipo() == 0) {
+                   response.sendRedirect("/AgendaLunar/vistas/Administracion.jsp");
+               }else{
+                   response.sendRedirect("/AgendaLunar");
+               }               
            }else{
                requestError(request,response);
            }

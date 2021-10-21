@@ -28,6 +28,11 @@
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             if (session.getAttribute("usuario") == null) {
                 response.sendRedirect("Login.jsp");
+            }else{
+                Integer tipo = (Integer) session.getAttribute("tipo");
+                if (tipo != 0) {
+                    response.sendRedirect("/AgendaLunar");
+                }
             }
         %>
         <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
