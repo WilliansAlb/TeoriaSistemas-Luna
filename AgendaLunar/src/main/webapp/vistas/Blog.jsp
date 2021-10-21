@@ -9,17 +9,17 @@
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
                     <title>agenda_lunar</title>
-                    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
                     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
                     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin:700">
-                    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-                    <link rel="stylesheet" href="../assets/fonts/simple-line-icons.min.css">
-                    <link rel="stylesheet" href="../assets/css/Account-setting-or-edit-profile.css">
-                    <link rel="stylesheet" href="../assets/css/Blog-Detail-App.css">
-                    <link rel="stylesheet" href="../assets/css/gradient-navbar-1.css">
-                    <link rel="stylesheet" href="../assets/css/gradient-navbar.css">
-                    <link rel="stylesheet" href="../assets/css/Login-Form-Dark.css">
-                    <link rel="stylesheet" href="../assets/css/Profile-with-data-and-skills.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fonts/font-awesome.min.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/fonts/simple-line-icons.min.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Account-setting-or-edit-profile.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Blog-Detail-App.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar-1.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Login-Form-Dark.css">
+                    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Profile-with-data-and-skills.css">
                 </head>
 
                 <body>
@@ -31,14 +31,12 @@
                                     aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
                                 <div class="collapse navbar-collapse" id="navbarResponsive">
                                     <ul class="navbar-nav ms-auto">
-                                        <<<<<<< HEAD <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS INFO</a></li>
+                                         
+                                        <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS INFO</a></li>
                                             <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Login</a></li>
                                             <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
-                                            =======
-                                            <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS INFO</a></li>
-                                            <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Login</a></li>
-                                            <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
-                                            >>>>>>> aef001f53b93a417a4ddc995c2fd034e8642aaf6
+                                           
+
                                     </ul>
                                 </div>
                             </div>
@@ -186,8 +184,8 @@
                     </div>
 
 
-                    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-                    <script src="../assets/js/grayscale.js"></script>
+                    <script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
+                    <script src="${pageContext.request.contextPath}/assets/js/grayscale.js"></script>
                 </body>
 
                 </html>

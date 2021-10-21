@@ -73,7 +73,7 @@ String ID;
                 publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
                 //obtiene las etiquetas
                 
-                request.setAttribute("usuario", ID);
+                request.getSession().setAttribute("usuario", ID);
                 request.setAttribute("CON", connection);
                 
                 request.setAttribute("PUBLICACIONES", publicaciones);

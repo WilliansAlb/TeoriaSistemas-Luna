@@ -27,6 +27,12 @@
 </head>
 
 <body><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <%        
+            response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            if (session.getAttribute("usuario") == null) {
+                response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
+            }  
+   %>
 <%
             List<Publicacion> publicaciones = null;
             Connection connection=null;
@@ -63,6 +69,7 @@
                 <div class="col-lg-8 col-md-12 left-box">
                     
                     <%
+                        try{
                     if(publicaciones.size()>0){    
                     for (Publicacion my_post : publicaciones) {
                     %>
@@ -154,8 +161,12 @@
                             </div>
                         </div>
                     </div>   
-                    <%  } 
-                       }//termina for de publicacion %>
+                                    <%  }
+                                            }
+                                        } catch (Exception e) {
+
+                                        }
+                //termina for de publicacion %>
 
 
                 </div>
