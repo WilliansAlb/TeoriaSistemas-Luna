@@ -1,4 +1,5 @@
 window.onload = () => {
+    document.querySelector(".contenedor-calendario").style.filter ="blur(2px)";
     const fecha = new Date();
     var calendario1 = document.querySelector("#contenedor-calendario");
     var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -42,11 +43,11 @@ window.onload = () => {
         var actual = (i == dia_actual) ? true : false;
         if (fase.texto != fase1) {
             repeticiones = 0;
-            calendario1.appendChild(crearDiv(i, 0.8, fase.fase, fase.texto, actual, repeticiones));
+            calendario1.appendChild(crearDiv(i, 1, fase.fase, fase.texto, actual, repeticiones));
             fase1 = fase.texto;
         } else {
             repeticiones++;
-            calendario1.appendChild(crearDiv(i, 0.8, fase.fase, "", actual, repeticiones));
+            calendario1.appendChild(crearDiv(i, 1, fase.fase, "", actual, repeticiones));
         }
     }
     if (cantidad_dias_mas != 0) {
@@ -64,6 +65,7 @@ window.onload = () => {
             }
         }
     }
+    solicitarEventos(mes+1,fecha.getFullYear());
 };
 
 function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
@@ -76,6 +78,14 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
     var ahref1 = document.createElement("a");
 
     ahref1.classList = "agregar";
+    ahref1.onclick = function () {
+        var padre1 = this.parentNode;
+        var day = padre1.querySelectorAll(".dia")[0];
+        var fecha = obtener_mes_anio();
+        var fecha1 = fecha.anio+"-"+fecha.mes+"-"+day.textContent;
+        document.getElementById("dia_crear").textContent = fecha1;
+        $("#oculto2").show();
+    };
     //spanA1.classList = "num";
     //spanA1.textContent = "+";
     //ahref1.appendChild(spanA1);
@@ -97,15 +107,17 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
     var spanA = document.createElement("span");
     ahref.classList = "notif";
     spanA.classList = "num";
-    spanA.textContent = "2";
+    spanA.textContent = "0";
     ahref.appendChild(spanA);
+    ahref.style.display ="none";
     pintarFase(fase, divMoon, divDisc, repeticiones);
     divDia.appendChild(span);
     if (opacidad == 0.5) {
         divTarjeta.style.filter = "blur(1px)";
     } else {
-        divDia.appendChild(ahref1);
+        span.classList.add("ok");
         divDia.appendChild(ahref);
+        divDia.appendChild(ahref1);
     }
     divDia.classList = "div-dia";
     divTarjeta.appendChild(divDia);
@@ -355,11 +367,11 @@ function cambioFecha() {
         var actual = (anio == fec.getFullYear() && mes == fec.getMonth() && i == fec.getDate()) ? true : false;
         if (fase.texto != fase1) {
             repeticiones = 0;
-            calendario1.appendChild(crearDiv(i, 0.8, fase.fase, fase.texto, actual, repeticiones));
+            calendario1.appendChild(crearDiv(i, 1, fase.fase, fase.texto, actual, repeticiones));
             fase1 = fase.texto;
         } else {
             repeticiones++;
-            calendario1.appendChild(crearDiv(i, 0.8, fase.fase, "", actual, repeticiones));
+            calendario1.appendChild(crearDiv(i, 1, fase.fase, "", actual, repeticiones));
         }
     }
     repeticiones = 0;
@@ -377,4 +389,6 @@ function cambioFecha() {
             }
         }
     }
+    
+    solicitarEventos(mes+1,anio);
 }

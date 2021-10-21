@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="../assets/css/gradient-navbar.css">
         <link rel="stylesheet" href="../assets/css/Login-Form-Dark.css">
         <link rel="stylesheet" href="../assets/css/Profile-with-data-and-skills.css">
+        <link rel="stylesheet" href="../assets/css/administracion.css">
     </head>
     <body>
         <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
@@ -36,5 +37,40 @@
                 </div>
             </div>
         </nav>
+        <div id="contenedor">
+            <div id="fondo">
+                <h1>Administración</h1>
+                <div id="opciones">
+                <div>
+                    <img src="../assets/img/o3.png">
+                    <h1>USUARIOS</h1>
+                    <hr style="width:50%">
+                    <a><span>Crear usuario</span></a>
+                    <a><span>Listar usuarios</span></a>
+                </div>
+                <div>
+                    <img src="../assets/img/o2.png">
+                    <h1>Calendario</h1>
+                    <hr style="width:50%">
+                    <a><span>Crear evento</span></a>
+                    <a><span>Ver calendario</span></a>
+                </div>
+                <div>
+                    <img src="../assets/img/o1.png">
+                    <h1>Blog</h1>
+                    <hr style="width:50%">
+                    <a><span>Crear publicación</span></a>
+                </div>
+                <div>
+                    <img src="../assets/img/o4.png">
+                    <h1>Siembras</h1>
+                    <hr style="width:50%">
+                    <a><span>Crear siembra</span></a>
+                    <a><span>Listar siembras</span></a>
+                </div>
+            </div>
+            </div>
+            
+        </div>
     </body>
 </html>

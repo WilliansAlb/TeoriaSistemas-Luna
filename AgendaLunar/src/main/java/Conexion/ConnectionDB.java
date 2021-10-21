@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
  */
 public class ConnectionDB {
     
-    public static final String URL = "jdbc:mysql://localhost:3306/agenda_lunar?autoReconect=true&useSSL=false";//auto reconnect
+    public static final String URL = "jdbc:mysql://localhost:3306/agenda_lunar?autoReconect=true&useSSL=false&serverTimezone=UTC";//auto reconnect
     public static final String USER = "root";//a test user, u can use a personal user
-    public static final String PASSWORD = "";//my password for the user
+    public static final String PASSWORD = "5177";//my password for the user
 
     public Connection getConnection() {
         Connection connection = null;
