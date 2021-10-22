@@ -33,32 +33,33 @@
                         <div class="collapse navbar-collapse" id="navbarResponsive">
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS</a></li>
-                                <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Login</a></li>
+                                <li class="nav-item nav-link"><a class="nav-link" href="Muro">Mi Blog personal</a></li>
                                 <li class="nav-item nav-link"><a class="nav-link" href="/Cuenta">Cuenta</a></li>
+                                <li class="nav-item nav-link"><a class="nav-link" href="login.jsp">Cerrar Sesion</a></li>
                             </ul>
                         </div>
                     </div>
                 </nav>
+                                    <%
+            Boolean flag;
+            Usuario user = null;
+            
+            try{
+            user = (Usuario) request.getAttribute("DATOS_CUENTA");
+            //connection=(Connection) request.getAttribute("CON");
+            flag=true;
+            } catch(Exception e){
+            flag=false;
+            }
+%>
+<%          try{
+            if(flag ){%>
                 <div class="container">
                     <br>
                     <br>
                     <br>
                     <br>
-                    <%
-                        Boolean flag=false;
-            Usuario user = null;
-            Connection connection=null;
-            try{
-            user = (Usuario) request.getAttribute("DATOS_CUENTA");
-            //connection=(Connection) request.getAttribute("CON");
-            } catch(Exception e){
-            flag=true;
-            }
-%>
-
-<%if(!flag ){%>
-
-
+                    
                         <div class="row gutters-sm">
                             <div class="col-md-4 mb-3">
                                 <div class="card">
@@ -158,6 +159,9 @@
                             </div>
                         </div>
                 </div>
+                                            <%} }catch(Exception e){
+
+}%>
 
                     <script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
                     <script src="${pageContext.request.contextPath}/assets/js/grayscale.js"></script>

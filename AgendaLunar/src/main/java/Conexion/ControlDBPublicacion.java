@@ -159,7 +159,7 @@ public class ControlDBPublicacion {
 
             preSt.close();
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error:... " + e.getMessage());
             exitoso = false;
         }
 
@@ -167,7 +167,7 @@ public class ControlDBPublicacion {
             //Traer ultima publicacion
             String idPublicacion = getUltimaPublicacionInsertada();
 
-            exitoso = insertarEtiquetasPublicacion(etiquetas, idPublicacion);
+            //exitoso = insertarEtiquetasPublicacion(etiquetas, idPublicacion);
         }
 
         return exitoso;

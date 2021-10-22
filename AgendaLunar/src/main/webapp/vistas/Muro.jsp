@@ -30,7 +30,7 @@
     <%        
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             if (session.getAttribute("usuario") == null) {
-                response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
+                //response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
             }  
    %>
 <%
@@ -52,11 +52,12 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item nav-link"><a class="nav-link active" href="#titulo_luna">TS INFO</a></li>
-                    <li class="nav-item nav-link"><a class="nav-link" href="/Cuenta>Cuenta</a></li>
+                    <li class="nav-item nav-link"><a class="nav-link" href="Muro">Mi Blog personal</a></li>
+                    <li class="nav-item nav-link"><a class="nav-link" href="Cuenta">Cuenta</a></li>
                      <li class="nav-item nav-link"><a class="nav-link" href="index.jsp">Cerrar Session</a></li>
                 </ul>
             </div>
-        </div>sss
+        </div>
     </nav>
     <br>
     <br>
@@ -67,19 +68,27 @@
         <div class="container">
             <div class="row clearfix">
                 <div class="col-lg-8 col-md-12 left-box">
+                    <form action="PublicarPost" method="POST">
+                    <div class="card" id="publicacion" name="publicacion" >
+                        
+                            <h3><a href="">Realizar publicacion</a></h3>
+                            <input type="text" class="form-control" id="usuario" name="usuario"  style="display: none;">
+                            <textarea id="texto" name="texto" cols="1" required rows="5" placeholder="Escribe aqui..." ></textarea>
+                            <button type="submit" class="btn btn-success"  >Publicar</button>
+                       
+                    </div>
+                    </form>
                     
-                    <%
+                    
+                    <div class="card single_post">
+                        <%
                         try{
                     if(publicaciones.size()>0){    
                     for (Publicacion my_post : publicaciones) {
                     %>
-                    
-                    <div class="card single_post">
                         <div class="body">
-                            <div class="img-post">
-                                <img class="d-block img-fluid" src="https://i.ytimg.com/vi/FzXvbNv1uzw/maxresdefault.jpg" alt="First slide">
-                            </div>
-                            <h3><a href="blog-details.html">Posible titulo</a></h3>
+
+                            <!--<h3><a href="">Posible titulo</a></h3>-->
                             <p> <%=my_post.getContenido()%> </p>
                         </div>     
                             
@@ -107,8 +116,8 @@
                                 <%}}%>
 
 
-                        <button type="button" onclick="mostrarComentarios(<%=my_post.getIdPublicacion()%>)" id="btn_mostar<%=my_post.getIdPublicacion()%>" class="btn btn-outline-secondary">Mostar comentarios</button>
-                        <button type="button" onclick="ocultarComentarios(<%=my_post.getIdPublicacion()%>)" id="btn_ocultar<%=my_post.getIdPublicacion()%>" class="btn btn-outline-secondary" style="display: none;" >Ocultar Comentarios</button>
+                        <button type="button" onclick="mostrarComentarios(<%=my_post.getIdPublicacion()%>)" id="btn_mostar<%=my_post.getIdPublicacion()%>" class="btn btn-dark">Mostar comentarios</button>
+                        <button type="button" onclick="ocultarComentarios(<%=my_post.getIdPublicacion()%>)" id="btn_ocultar<%=my_post.getIdPublicacion()%>" class="btn btn-dark" style="display: none;" >Ocultar Comentarios</button>
 
                         <div class="card" id="mostrar_comentarios<%=my_post.getIdPublicacion()%>" name="mostrar_comentarios<%=my_post.getIdPublicacion()%>" style="display: none;" >
 
@@ -159,14 +168,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>   
-                                    <%  }
-                                            }
-                                        } catch (Exception e) {
+                        
 
-                                        }
-                //termina for de publicacion %>
+                        </div>
+                        <%  }
+                                }
+                            } catch (Exception e) {
+                        } //termina for de publicacion %>
+                    </div>   
+
 
 
                 </div>

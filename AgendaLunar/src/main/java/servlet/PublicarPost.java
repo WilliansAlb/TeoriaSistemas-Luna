@@ -11,7 +11,9 @@ import POJOS.Publicacion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,9 +25,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author James Gramajo
  */
-@WebServlet(name = "Muro", urlPatterns = {"/Muro"})
-public class Muro extends HttpServlet {
+@WebServlet(name = "PublicarPost", urlPatterns = {"/PublicarPost"})
+public class PublicarPost extends HttpServlet {
 String ID;
+String texto;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,30 +42,40 @@ String ID;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         try (PrintWriter out = response.getWriter()) {
-             ID= request.getParameter("usuario");
-             ID="mcoupe1";
-             System.out.println(ID);
-             doPost(request,response);
-            //request.setAttribute("USER", USER);
-            //request.getRequestDispatcher("/PagesGerente/CrearGerente.jsp").forward(request, response);
+            ID= request.getParameter("usuario");
+            texto=request.getParameter("texto");
+
+            ID="mcoupe1";
+
+            doPost(request,response);
         }
     }
 
-   
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        
     }
 
 
-    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-               
-                List<Publicacion> publicaciones = new ArrayList<>();
+            ID= request.getParameter("usuario");
+            texto=request.getParameter("texto");
+
+            ID="mcoupe1";
+            List<Publicacion> publicaciones = new ArrayList<>();
                 
                 
                 //establece la conexion a la DB
@@ -69,6 +83,20 @@ String ID;
                 Connection connection = connect.getConnection();
                 
                 ControlDBPublicacion ControlP=new ControlDBPublicacion(connection);
+                ControlDBPublicacion ControlP2=new ControlDBPublicacion(connection);
+                try{
+                String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+                System.out.println(timeStamp);
+                System.out.println(ID);
+                System.out.println(texto);
+                List<String> etiq = new ArrayList<>();
+                ControlP2.insertarPublicacion(ID, texto, timeStamp, etiq);
+                } catch(Exception e){
+                    
+                }
+                //realiza el ingreso de la publicacion en la BD
+                
+
                 //obtiene las publicaciones 
                 publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
                 //obtiene las etiquetas
@@ -77,20 +105,19 @@ String ID;
                 request.setAttribute("CON", connection);
                 
                 request.setAttribute("PUBLICACIONES", publicaciones);
-                request.getRequestDispatcher("vistas/Muro.jsp").forward(request, response);
-                
-        
-        
-        
-        //processRequest(request, response);
+                request.getRequestDispatcher("Muro").forward(request, response);
+
+            //processRequest(request, response);
     }
 
-
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
 }
-
-
