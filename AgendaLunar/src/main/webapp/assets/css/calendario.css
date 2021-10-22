@@ -7,11 +7,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url(../img/crateres2.jpg);
+    background-image: url(../img/calendario2.jpg);
     background-size: cover;
     padding: 2rem;
     border-radius: 10px;
-    width: 65%;
+    width: 85%;
 }
 
 .calendario{
@@ -60,7 +60,10 @@
     padding-top: 0.5em;
     padding-bottom: 0.5em;*/
     flex-direction: column;
-    padding: 1em;
+    padding: 0.1em;
+    background-image: url("../img/crateres.jpg");
+    background-attachment: fixed;
+    color:black;
 }
 
 .div-dia{
@@ -80,18 +83,11 @@
 }
 
 .tarjeta-dia:hover{
-    background: hsla(0, 1%, 35%, 1);
-
-    background: linear-gradient(90deg, hsla(0, 1%, 35%, 1) 0%, hsla(248, 60%, 50%, 1) 100%);
-
-    background: -moz-linear-gradient(90deg, hsla(0, 1%, 35%, 1) 0%, hsla(248, 60%, 50%, 1) 100%);
-
-    background: -webkit-linear-gradient(90deg, hsla(0, 1%, 35%, 1) 0%, hsla(248, 60%, 50%, 1) 100%);
     opacity: 1 !important;
     cursor: pointer;
     transform:scale(1.25);
     z-index: 1000;
-    border: 2px solid gold;
+    border: 2px solid white;
 }
 
 .contenedor-calendario{
@@ -240,4 +236,156 @@ a.notif:hover{
     padding-left: 0.5em;
     padding-right: 0.5em;
     border-radius: 50%;
+}
+
+#cargando{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    display: flex;
+    background-color: #000000b8;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.oculto{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    background-color: #000000b8;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.div-dia{
+    margin-bottom: 5px;
+}
+
+.eventos{
+    margin-top: 5px;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+table{
+    width:100%;
+}
+tbody{
+    color:white;
+}
+
+.switch-button {
+	 background: rgba(255, 255, 255, 0.56);
+	 border-radius: 30px;
+	 overflow: hidden;
+	 width: 240px;
+	 text-align: center;
+	 font-size: 18px;
+	 letter-spacing: 1px;
+	 color: #303030;
+	 position: relative;
+	 padding-right: 120px;
+	 position: relative;
+}
+ .switch-button:before {
+	 content: "Siembra";
+	 position: absolute;
+	 top: 0;
+	 bottom: 0;
+	 right: 0;
+	 width: 120px;
+	 display: flex;
+	 align-items: center;
+	 justify-content: center;
+	 z-index: 3;
+	 pointer-events: none;
+}
+ .switch-button-checkbox {
+	 cursor: pointer;
+	 position: absolute;
+	 top: 0;
+	 left: 0;
+	 bottom: 0;
+	 width: 100%;
+	 height: 100%;
+	 opacity: 0;
+	 z-index: 2;
+}
+ .switch-button-checkbox:checked + .switch-button-label:before {
+	 transform: translateX(120px);
+	 transition: transform 300ms linear;
+}
+ .switch-button-checkbox + .switch-button-label {
+	 position: relative;
+	 padding: 15px 0;
+	 display: block;
+	 user-select: none;
+	 pointer-events: none;
+}
+ .switch-button-checkbox + .switch-button-label:before {
+	 content: "";
+	 background: #fff;
+	 height: 100%;
+	 width: 100%;
+	 position: absolute;
+	 left: 0;
+	 top: 0;
+	 border-radius: 30px;
+	 transform: translateX(0);
+	 transition: transform 300ms;
+}
+ .switch-button-checkbox + .switch-button-label .switch-button-label-span {
+	 position: relative;
+}
+
+.creacion{   
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.creacion h1{
+    margin:0;
+}
+
+.creacion2{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    color:white;
+    padding: 0.5em;
+}
+
+#creacion{
+    background-color:#303030;
+    color: white;
+    padding: 2em;border-radius: 2em; display:flex; flex-direction: column;
 }

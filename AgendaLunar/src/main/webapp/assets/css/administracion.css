@@ -1,0 +1,78 @@
+#fondo{
+    width: 100%;
+    margin: auto;
+    margin-top: 5em;
+    background-image: url(../img/calendario.jpg);
+    background-size: cover;
+    height: 38em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#fondo h1{
+    color: #303030;
+    background-color:white;
+    padding:1em;
+    border-radius: 0.5em;
+}
+
+#contenedor{
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    width: 85%;
+}
+
+body{
+    background-image: url("../img/star-sky.jpg");
+    background-size: cover;
+}
+
+#opciones{
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    width: 80%;
+}
+
+#opciones div{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    background-color: #303030;
+    margin: 0.5em;
+    padding: 0.5em;
+    color: white;
+    border-radius: 1em;
+    opacity: 0.8;
+}
+
+#opciones div:hover{
+    opacity: 1;
+}
+
+#opciones div img{
+    width: 100px;
+}
+
+#opciones div h1{
+    padding: 0;
+    margin: 0;
+    font-size: 2em;
+    color: white;
+    background:transparent no-repeat scroll 50% 50%;
+}
+
+#opciones div a:hover{
+    transform: scale(1.3);
+    cursor:pointer;
+    color: yellow;
+}
+
+#opciones div a{
+    text-transform: uppercase;
+    font-family: 'Cabin';
+}
+
