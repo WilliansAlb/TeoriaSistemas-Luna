@@ -166,8 +166,10 @@ public class ControlDBPublicacion {
         if (exitoso) {
             //Traer ultima publicacion
             String idPublicacion = getUltimaPublicacionInsertada();
-
-            //exitoso = insertarEtiquetasPublicacion(etiquetas, idPublicacion);
+            //Revisar etiqueta
+            //Get idsEtiquetas
+            List<String> idsEtiquetas = revisarEtiquetas(etiquetas,idPublicacion);
+            exitoso = insertarEtiquetasPublicacion(idsEtiquetas, idPublicacion);
         }
 
         return exitoso;
@@ -281,15 +283,16 @@ public class ControlDBPublicacion {
     }
 
     /**
-     * Inserta el comentario en la base de datos
-     * Hay que enviar la fecha en tipo yyyy-mm-dd
+     * Inserta el comentario en la base de datos Hay que enviar la fecha en tipo
+     * yyyy-mm-dd
+     *
      * @param idUsuario
      * @param idPublicacion
      * @param comentario
      * @param fecha
      * @return
      */
-    public boolean insertarComentario(String idUsuario, String idPublicacion, String comentario,String fecha) {
+    public boolean insertarComentario(String idUsuario, String idPublicacion, String comentario, String fecha) {
         boolean exitoso = true;
 
         String query = "INSERT INTO comentario (id_usuario, id_publicacion, comentario, fecha) VALUES (?, ?, ?, ?);";
@@ -308,6 +311,62 @@ public class ControlDBPublicacion {
         }
 
         return exitoso;
+    }
+
+    public List<String> revisarEtiquetas(List<String> etiquetas,String idPublicacion) {
+        List<String> idetiquetas = new ArrayList<>();
+
+        for (String etiqueta : etiquetas) {
+            int idEt = existeEtiqueta(etiqueta);
+            if (idEt == -1) {
+                //no existe
+                insertarEtiqueta(etiqueta);
+                //Get ultimo idEtiqueta
+                idetiquetas.add(String.valueOf(getUltimaEtiquetaInsertada()));
+            }else{
+                idetiquetas.add(String.valueOf(idEt));
+            }
+        }
+        return idetiquetas;
+    }
+
+    public int existeEtiqueta(String nombreEtiqueta) {
+        int idEt = -1;
+
+        String query = "SELECT * FROM etiqueta WHERE nombre = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, nombreEtiqueta);
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                idEt = (result.getInt(1));
+            }
+
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return idEt;
+    }
+    
+    public int getUltimaEtiquetaInsertada(){
+        int idEt = -1;
+        String query = "SELECT * FROM etiqueta ORDER BY id DESC";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            
+            ResultSet result = preSt.executeQuery();
+            if(result.next()) {
+                idEt = (result.getInt(1));
+            }
+
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return idEt;
     }
 
 }

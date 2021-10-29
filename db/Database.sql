@@ -47,6 +47,7 @@ CREATE TABLE siembra(
     id_cultivo int NOT NULL,
     fechaSiembra DATE NOT NULL,
     cosechado BOOLEAN NOT NULL,
+    nombre varchar(255) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_lugar) REFERENCES lugar(id),
     FOREIGN KEY (id_cultivo) REFERENCES cultivo(id)

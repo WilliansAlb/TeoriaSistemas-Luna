@@ -30,6 +30,7 @@ public class ControlDBEventos {
 
     /**
      * Obtiene todos los eventos de un usuario por mes y anio
+     *
      * @param id
      * @param mes
      * @param anio
@@ -51,6 +52,7 @@ public class ControlDBEventos {
 
     /**
      * Obtiene las publicaciones de un usuario en un mes
+     *
      * @param nombreUsuario
      * @param fecha1
      * @param fecha2
@@ -91,6 +93,7 @@ public class ControlDBEventos {
 
     /**
      * Obtiene todos los eventos que sean siembra
+     *
      * @param nombreUsuario
      * @return
      */
@@ -129,7 +132,7 @@ public class ControlDBEventos {
         boolean exitoso = true;
 
         //Inserta la siembra
-        boolean siembraInsertada = insertarSiembra(idLugar, idCultivo, fechaEvento);
+        boolean siembraInsertada = insertarSiembra(idLugar, idCultivo, fechaEvento, nombre);
         if (siembraInsertada) {
 
             //get id ultima siembra
@@ -160,15 +163,41 @@ public class ControlDBEventos {
         return exitoso;
     }
 
-    public boolean insertarSiembra(String idLugar, String idCultivo, String fechaSiembra) {
+    public boolean insertarEventoPorIdSiembra(String idUsuario, String nombre, String fechaEvento, String descripcion, String tipo,int idSiembra) {
         boolean exitoso = true;
 
-        String query = "INSERT INTO siembra (id_lugar,id_cultivo,fechaSiembra,cosechado) VALUES (?,?,?,0)";
+        //Inserta el evento 
+        String query = "INSERT INTO eventos (id_usuario,id_siembra,nombre,fechaEvento,descripcion,tipo) VALUES (?,?,?,?,?,?)";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idUsuario);
+            preSt.setInt(2, idSiembra);
+            preSt.setString(3, nombre);
+            preSt.setString(4, fechaEvento);
+            preSt.setString(5, descripcion);
+            preSt.setString(6, tipo);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
+
+    public boolean insertarSiembra(String idLugar, String idCultivo, String fechaSiembra, String nombre) {
+        boolean exitoso = true;
+
+        String query = "INSERT INTO siembra (id_lugar,id_cultivo,fechaSiembra,cosechado) VALUES (?,?,?,0,?)";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
             preSt.setString(1, idLugar);
             preSt.setString(2, idCultivo);
             preSt.setString(3, fechaSiembra);
+            preSt.setString(4, nombre);
 
             preSt.executeUpdate();
 
@@ -186,7 +215,7 @@ public class ControlDBEventos {
         String query = "INSERT INTO eventos (id_usuario,nombre,fechaEvento,descripcion,tipo) VALUES (?,?,?,?,?)";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
-            preSt.setString(1, idUsuario);            
+            preSt.setString(1, idUsuario);
             preSt.setString(2, nombre);
             preSt.setString(3, fechaEvento);
             preSt.setString(4, descripcion);
@@ -221,13 +250,13 @@ public class ControlDBEventos {
         }
         return idSiembra;
     }
-        
-    public List<Cultivo> getTodosLosTiposDeCultivos(){
+
+    public List<Cultivo> getTodosLosTiposDeCultivos() {
         List<Cultivo> cultivos = new ArrayList<>();
 
         String query = "SELECT * FROM cultivo";
 
-        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
 
             ResultSet result = preSt.executeQuery();
             while (result.next()) {
@@ -246,12 +275,12 @@ public class ControlDBEventos {
 
         return cultivos;
     }
-    
-    public List<Lugar> getTodosLugares(){
+
+    public List<Lugar> getTodosLugares() {
         List<Lugar> lugares = new ArrayList<>();
         String query = "SELECT * FROM lugar";
 
-        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
 
             ResultSet result = preSt.executeQuery();
             while (result.next()) {
