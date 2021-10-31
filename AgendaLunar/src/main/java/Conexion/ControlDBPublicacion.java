@@ -37,7 +37,7 @@ public class ControlDBPublicacion {
     public List<Publicacion> getTodasPublicacionesPorNombreUsuario(String nombreUsuario) {
         List<Publicacion> publicaciones = new ArrayList<>();
 
-        String query = "SELECT * FROM publicacion WHERE id_usuario = ?";
+        String query = "SELECT * FROM publicacion WHERE id_usuario = ? ORDER BY fecha_publicacion DESC";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
 

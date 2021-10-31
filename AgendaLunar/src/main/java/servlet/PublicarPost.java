@@ -27,8 +27,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "PublicarPost", urlPatterns = {"/PublicarPost"})
 public class PublicarPost extends HttpServlet {
-String ID;
-String texto;
+
+    String ID;
+    String texto;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,12 +44,12 @@ String texto;
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            ID= request.getParameter("usuario");
-            texto=request.getParameter("texto");
+            ID = request.getParameter("usuario");
+            texto = request.getParameter("texto");
 
-            ID="mcoupe1";
+            ID = "mcoupe1";
 
-            doPost(request,response);
+            doPost(request, response);
         }
     }
 
@@ -67,47 +68,44 @@ String texto;
         processRequest(request, response);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            ID= request.getParameter("usuario");
-            texto=request.getParameter("texto");
+        ID = request.getParameter("usuario");
+        texto = request.getParameter("texto");
 
-            ID="mcoupe1";
-            List<Publicacion> publicaciones = new ArrayList<>();
-                
-                
-                //establece la conexion a la DB
-                ConnectionDB connect = new ConnectionDB();
-                Connection connection = connect.getConnection();
-                
-                ControlDBPublicacion ControlP=new ControlDBPublicacion(connection);
-                ControlDBPublicacion ControlP2=new ControlDBPublicacion(connection);
-                try{
-                String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-                System.out.println(timeStamp);
-                System.out.println(ID);
-                System.out.println(texto);
-                List<String> etiq = new ArrayList<>();
-                ControlP2.insertarPublicacion(ID, texto, timeStamp, etiq);
-                } catch(Exception e){
-                    
-                }
-                //realiza el ingreso de la publicacion en la BD
-                
+        ID = "mcoupe1";
+        List<Publicacion> publicaciones = new ArrayList<>();
 
-                //obtiene las publicaciones 
-                publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
-                //obtiene las etiquetas
-                
-                request.getSession().setAttribute("usuario", ID);
-                request.setAttribute("CON", connection);
-                
-                request.setAttribute("PUBLICACIONES", publicaciones);
-                request.getRequestDispatcher("Muro").forward(request, response);
+        //establece la conexion a la DB
+        ConnectionDB connect = new ConnectionDB();
+        Connection connection = connect.getConnection();
 
-            //processRequest(request, response);
+        ControlDBPublicacion ControlP = new ControlDBPublicacion(connection);
+        ControlDBPublicacion ControlP2 = new ControlDBPublicacion(connection);
+        try {
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            System.out.println(timeStamp);
+            System.out.println(ID);
+            System.out.println(texto);
+            List<String> etiq = new ArrayList<>();
+            ControlP2.insertarPublicacion(ID, texto, timeStamp, etiq);
+        } catch (Exception e) {
+
+        }
+        //realiza el ingreso de la publicacion en la BD
+
+        //obtiene las publicaciones 
+        publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
+        //obtiene las etiquetas
+
+        request.getSession().setAttribute("usuario", ID);
+        request.setAttribute("CON", connection);
+
+        request.setAttribute("PUBLICACIONES", publicaciones);
+        request.getRequestDispatcher("Muro").forward(request, response);
+
+        //processRequest(request, response);
     }
 
     /**
