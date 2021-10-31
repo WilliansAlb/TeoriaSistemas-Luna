@@ -92,7 +92,7 @@ insert into lugar (nombre,ubicacion,clima) values ('Finca2','Xela','frio');
 
 
 /*---TIPOS DE CULTIVOS---*/ /*DATO OBLIGATORIO*/
-insert into cultivo (tipo) values ('Raíces y tubérculos');
+insert into cultivo (tipo) values ('Raices y tuberculos');
 insert into cultivo (tipo) values ('Cerales');
 insert into cultivo (tipo) values ('Leguminosas');
 insert into cultivo (tipo) values ('Oleaginosas');
@@ -105,9 +105,9 @@ insert into cultivo (tipo) values ('Pasto');
 
 /*---SIEMBRA---*/
 
-insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado) values (1,2,'2021-07-01',0,'Siembra de Maiz');
-insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado) values (2,2,'2021-07-05',0,'Siembra de Arroz');
-insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado) values (1,2,'2021-07-20',0,'Siembra de Sorgo');
+insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre) values (1,2,'2021-07-01',0,'Siembra de Maiz');
+insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre) values (2,2,'2021-07-05',0,'Siembra de Arroz');
+insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre) values (1,2,'2021-07-20',0,'Siembra de Sorgo');
 
 
 /*---EVENTOS CON SIEMBRA---*/
