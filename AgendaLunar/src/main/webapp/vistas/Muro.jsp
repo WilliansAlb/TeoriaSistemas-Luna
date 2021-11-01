@@ -21,7 +21,10 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Blog-Detail-App.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar-1.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar.css">
-<!--        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Login-Form-Dark.css">-->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tag.css">
+
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Profile-with-data-and-skills.css">
     </head>
 
@@ -51,43 +54,50 @@
             <br>
             <br>
             <br>
-            <br>
-            <br>
             <div class="container">
                 <div class="row clearfix">
                     <div class="col-lg-8 col-md-12 left-box">
-                        <form action="PublicarPost" method="POST">
-                            <div class="card" id="publicacion" name="publicacion" >
-                                <input type="text" class="form-control" id="usuario" name="usuario"  style="display: none;">
-                                <textarea id="texto" name="texto" cols="1" required rows="5" placeholder="En que estas pensando..." ></textarea>
-                                <button type="submit" class="btn btn-success"  >Publicar</button>
 
+                        <div class="card" align="center" id="publicacion" name="publicacion" >
+                            <div class="body"  >
+                                <font align="center" face="Comic Sans MS,arial,verdana" size="2" >Realiza una publicacion</font>
                             </div>
-                        </form>
+                            <input type="text" class="form-control" id="usuario" name="usuario"  style="display: none;">
+                            
+                            <textarea id="textop" rows="5" placeholder="En que estas pensando..." ></textarea>
+                            
+                            <div class="container">
+
+                                <div class="tag-container">
+                                    <input  />  
+                                </div>
+
+                            </div>     
+
+                            <button type="button" onclick="publicar();" class="btn btn-success" >Publicar</button>
+
+                        </div>
 
 
+                        <%
+                            try {
+                                List<Publicacion> publicaciones = new ArrayList<>();
+
+                                //establece la conexion a la DB
+                                ConnectionDB connect = new ConnectionDB();
+                                Connection connection = connect.getConnection();
+
+                                ControlDBPublicacion ControlPP = new ControlDBPublicacion(connection);
+                                //obtiene las publicaciones 
+                                publicaciones = ControlPP.getTodasPublicacionesPorNombreUsuario(ID);
+                                if (publicaciones.size() > 0) {
+                                    for (Publicacion my_post : publicaciones) {
+                        %>
                         <div class="card single_post">
-                            <%
-                                try {
-                                    List<Publicacion> publicaciones = new ArrayList<>();
-
-                                    //establece la conexion a la DB
-                                    ConnectionDB connect = new ConnectionDB();
-                                    Connection connection = connect.getConnection();
-
-                                    ControlDBPublicacion ControlPP = new ControlDBPublicacion(connection);
-                                    //obtiene las publicaciones 
-                                    publicaciones = ControlPP.getTodasPublicacionesPorNombreUsuario(ID);
-                                    if (publicaciones.size() > 0) {
-                                        for (Publicacion my_post : publicaciones) {
-                            %>
                             <div class="body">
-
                                 <!--<h3><a href="">Posible titulo</a></h3>-->
                                 <p> <%=my_post.getContenido()%> </p>
                             </div>     
-
-
                             <%
                                 ///ETIQUETAS
                                 ControlDBPublicacion ControlP = new ControlDBPublicacion(connection);
@@ -100,18 +110,21 @@
                                 }
                                 if (!etiquetas.isEmpty()) {
                             %>
-                            <% for (int i = 0; i < etiquetas.size(); i++) {%>
+
                             <div class="body widget">
                                 <ul class="list-unstyled categories-clouds m-b-0">
                                     <li>
+                                        <% for (int i = etiquetas.size() - 1; i >= 0; i--) {
+                                                try {%>
                                         <a href="javascript:void(0);">#<%=etiquetas.get(i)%></a>
+                                        <%} catch (Exception e) {
+                                                }
+                                            }%>
                                     </li>
                                 </ul>
                             </div>
-                            <%}
+                            <%
                                 }%>
-
-
                             <button type="button" onclick="mostrarComentarios(<%=my_post.getIdPublicacion()%>)" id="btn_mostar<%=my_post.getIdPublicacion()%>" class="btn btn-dark">Mostar comentarios</button>
                             <button type="button" onclick="ocultarComentarios(<%=my_post.getIdPublicacion()%>)" id="btn_ocultar<%=my_post.getIdPublicacion()%>" class="btn btn-dark" style="display: none;" >Ocultar Comentarios</button>
 
@@ -125,23 +138,22 @@
 
                                     }
                                 %>
-
                                 <div class="header">
-                                    <h4>Comments <%=comentarios.size()%></h4>
+                                    <h4>Comentarios <%=comentarios.size()%></h4>
                                 </div>
                                 <div class="body">
 
                                     <ul class="comment-reply list-unstyled">
                                         <div id="comentarios_publicacion<%=my_post.getIdPublicacion()%>" >
                                             <%
-                                            if (!comentarios.isEmpty()) {
-                                                for (int i = 0; i < comentarios.size(); i++) {%>
+                                                if (!comentarios.isEmpty()) {
+                                                    for (int i = 0; i < comentarios.size(); i++) {%>
                                             <li class="row clearfix">
                                                 <div class="icon-box col-md-2 col-4">
                                                     <img class="img-fluid img-thumbnail" src="https://cdn.pixabay.com/photo/2021/06/07/13/46/user-6318008_1280.png" alt="Perfil"></div>
                                                 <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                                    
-                                                    
+
+
                                                     <h5 class="m-b-0"><%=comentarios.get(i).getNombreUsuario()%></h5>
                                                     <p><%=comentarios.get(i).getContenido()%></p>
                                                     <ul class="list-inline">
@@ -150,7 +162,7 @@
                                                 </div>
                                             </li>
                                             <%}
-                                            }%>
+                                                }%>
                                         </div>
                                     </ul>
 
@@ -171,11 +183,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <%  }
-                                    }
-                                } catch (Exception e) {
-                                } //termina for de publicacion %>
-                        </div>   
+                        </div>                         
+                        <%  }
+                                }
+                            } catch (Exception e) {
+                            } //termina for de publicacion %>
+
                     </div>
                     <div class="col-lg-4 col-md-12 right-box">
                         <div class="card">
@@ -192,6 +205,13 @@
                 </div>
             </div>
             <script>
+
+//                $('#texto').blur(function () {
+//                    // replace hashtags (parsing should prob. be enhanced)
+//                    $(this).html($(this).html().replace(/(#\S+)/, '<span style="color: blue">$1</span>'));
+//                });
+
+
                 function comentar(boton, texto) {
                     var james = boton.parentNode;
                     var id_publicacion = boton.value;
@@ -211,16 +231,16 @@
 
                         },
                         success: function (data) {
-                           
-                           console.log('#comentarios_publicacion'+id_publicacion);
-                           
-                           const split=data.split(',');
-                           var nombre=split[0];
-                           var fecha=split[1];
 
-                           
-                           $('#comentarios_publicacion'+id_publicacion).append('<li class="row clearfix"><div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail" src="https://cdn.pixabay.com/photo/2021/06/07/13/46/user-6318008_1280.png" alt="Perfil"></div><div class="text-box col-md-10 col-8 p-l-0 p-r0"><h5 class="m-b-0">'+nombre+'</h5><p>'+comm+'</p><ul class="list-inline"><li><a href="javascript:void(0);">'+fecha+'</a></li></ul></div></li>');
-                            com.value='';
+                            console.log('#comentarios_publicacion' + id_publicacion);
+
+                            const split = data.split(',');
+                            var nombre = split[0];
+                            var fecha = split[1];
+
+
+                            $('#comentarios_publicacion' + id_publicacion).append('<li class="row clearfix"><div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail" src="https://cdn.pixabay.com/photo/2021/06/07/13/46/user-6318008_1280.png" alt="Perfil"></div><div class="text-box col-md-10 col-8 p-l-0 p-r0"><h5 class="m-b-0">' + nombre + '</h5><p>' + comm + '</p><ul class="list-inline"><li><a href="javascript:void(0);">' + fecha + '</a></li></ul></div></li>');
+                            com.value = '';
                         },
                         error: function (data) {
                             alert("Error al realizar un comentario intentalo mas tarde");
@@ -254,6 +274,8 @@
 
         <script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/grayscale.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/tag.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/Publicar.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </body>
 
