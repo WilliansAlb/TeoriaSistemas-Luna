@@ -33,11 +33,11 @@
         <link rel="stylesheet" href="../assets/css/calendario.css">
     </head>
     <body>
-        <%        
+        <%
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             if (session.getAttribute("usuario") == null) {
                 response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
-            }  
+            }
         %>
         <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
             <div class="container"><a class="navbar-brand" href="../index.jsp"><img src="../assets/img/icono1.png" width="40px">Agenda Lunar</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
@@ -52,14 +52,16 @@
             </div>
         </nav>
         <div class="contenedor-calendario">
-            <div><h1 style="text-align: center;margin:0;">Calendario</h1></div>
-            <div class="selector">
-                <div class="selector-mes"><span class="control" onclick="cambiaMes(true)"><img src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
-                    </span><span id="mes">OCTUBRE</span><span class="control" onclick="cambiaMes(false)"><img class="alreves" src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
-                    </span></div>
-                <div class="selector-anio"><span class="control" onclick="cambiaAnio(true)"><img src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
-                    </span><span id="anio">2021</span><span class="control" onclick="cambiaAnio(false)"><img class="alreves" src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
-                    </span></div>
+            <div id="encabezado-controles">
+                <div><h1 style="text-align: center;margin:0;">Calendario</h1></div>
+                <div class="selector">
+                    <div class="selector-mes"><span class="control" onclick="cambiaMes(true)"><img src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
+                        </span><span id="mes">OCTUBRE</span><span class="control" onclick="cambiaMes(false)"><img class="alreves" src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
+                        </span></div>
+                    <div class="selector-anio"><span class="control" onclick="cambiaAnio(true)"><img src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
+                        </span><span id="anio">2021</span><span class="control" onclick="cambiaAnio(false)"><img class="alreves" src="https://cdn-icons-png.flaticon.com/512/130/130906.png" width="20px" style="margin: auto;">
+                        </span></div>
+                </div>
             </div>
             <div class="calendario" id="contenedor-calendario">
                 <div class="nombre-dia">Domingo</div>
@@ -75,7 +77,7 @@
             <div class="loader"></div>
         </div>
         <div class="oculto" id="oculto1" style="display:none;">
-            <div style="background-color: #303030; padding: 2em;border-radius: 2em; width:70%;">
+            <div style="background-color: #303030; padding: 2em;border-radius: 2em; width:70%;" class="colorFondo">
                 <span id="listado_dia_evento"></span>
                 <h1>LISTADO DE EVENTOS</h1>
                 <div class="table-responsive">
@@ -108,7 +110,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button onclick="this.parentNode.parentNode.style.display = 'none';">CERRAR</button>
+                <button onclick="this.parentNode.parentNode.style.display = 'none';" style="background-color: red;width: fit-content;height: fit-content;padding: 1em">CERRAR</button>
             </div>
         </div>
         <div class="oculto" id="oculto2" style="display: none;">
@@ -121,7 +123,7 @@
                     </div>
                     <h1>EN LA FECHA <span id="dia_crear">2021-10-21</span></h1>
                 </div>
-                    <hr width="100%">
+                <hr width="100%">
                 <div id="creacion_siembra" class="creacion2" style="display:none;">
                     <h1 style="font-size: 1.5em; margin: 0;">Datos de siembra</h1>
                     <span>Lugar:</span>
@@ -169,7 +171,7 @@
                     </div>
                     <button onclick="crear_evento()" style="margin-top:2em;">CREAR EVENTO</button>
                 </div>
-                <button onclick="this.parentNode.parentNode.style.display = 'none';" style="background-color:red;width:50%;margin:auto;">X</button>
+                <button onclick="this.parentNode.parentNode.style.display = 'none';" style="background-color:red;width:fit-content;margin:auto;padding: 1em;">X</button>
             </div>
         </div>
         <div class="oculto" id="oculto3" style="display: none;">
