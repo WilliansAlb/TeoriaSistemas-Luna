@@ -1,15 +1,15 @@
 <%-- 
-    Document   : ListaUsuarios
-    Created on : 2/11/2021, 14:38:02
+    Document   : EditarUsuario
+    Created on : 2/11/2021, 17:11:33
     Author     : sergi
 --%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Lista de usuarios</title>
+        <title>Editar usuario</title>
         <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/img/icono1.png" type="image/x-icon">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
@@ -48,31 +48,17 @@
                 </div>
             </div>
         </nav>
-                    <!-- informacion viene de servlet/MostrarUsuarios -->
-                    <div id="contenedor">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre de usuario</th>
-                                    <th>Nombre</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${usuarios}" var="usuario">
-                                <tr>
-                                    <td>${usuario.nombreUsuario}</td>
-                                    <td> ${usuario.nombreCompleto}</td>
-                                    <td><a href="${pageContext.request.contextPath}/EditarUsuario?nombreUsuario=${usuario.nombreUsuario}">Editar</a></td>
-                                    <td><a href="${pageContext.request.contextPath}/EliminarUsuario?nombreUsuario=${usuario.nombreUsuario}">Eliminar</a></td>
-                                </tr>                              
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                        <c:if test="${exitoso == false}">
-                            <label id="error" style="color:red;text-align: center">Usuario no eliminado</label>            
-                        </c:if>  
-                    </div>
+                        <%--datos vienen de servlet/EditarUsuario --%>
+                        <div id="contenedor">
+                            ${usuario.nombreUsuario}
+                            <br>
+                            ${usuario.nombreCompleto}
+                            <br>
+                            ${usuario.password}
+                            <br>
+                            ${usuario.tipo}
+                            <br>
+                        </div>
+                        
     </body>
 </html>

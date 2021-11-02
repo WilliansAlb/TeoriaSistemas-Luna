@@ -57,7 +57,7 @@
                     <h1>USUARIOS</h1>
                     <hr style="width:50%">
                     <a><span>Crear usuario</span></a>
-                    <a><span>Listar usuarios</span></a>
+                    <a href="/AgendaLunar/MostrarUsuarios"><span>Listar usuarios</span></a>
                 </div>
                 <div>
                     <img src="../assets/img/o2.png">
