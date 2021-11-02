@@ -1,8 +1,9 @@
+<%@page import="Conexion.ControlDBUsuario"%>
+<%@page import="Conexion.ConnectionDB"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="POJOS.Usuario"%>
 <!DOCTYPE html>
 <html>
-
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -20,12 +21,14 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Profile-with-data-and-skills.css">
     </head>
 
-    <body>
+    <body background="${pageContext.request.contextPath}/assets/img/star-sky2.png">
         <%
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             if (session.getAttribute("usuario") == null) {
+                
                 response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
             }
+            String ID = (String) request.getSession().getAttribute("usuario");
         %>
         <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
             <div class="container-fluid"><a class="navbar-brand" href="/AgendaLunar">Moon</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false"
@@ -41,19 +44,13 @@
             </div>
         </nav>
         <%
-            Boolean flag;
-            Usuario user = null;
-
-            try {
-                user = (Usuario) request.getAttribute("DATOS_CUENTA");
-                //connection=(Connection) request.getAttribute("CON");
-                flag = true;
-            } catch (Exception e) {
-                flag = false;
-            }
-        %>
+            ConnectionDB connect = new ConnectionDB();
+            Connection connection = connect.getConnection();
+            ControlDBUsuario control=new ControlDBUsuario(connection);
+            Usuario user=control.getUsuarioPorNombreUsuario(ID);
+            %>
         <%          try {
-        if (flag) {%>
+        %>
         <div class="container">
             <br>
             <br>
@@ -159,7 +156,7 @@
                 </div>
             </div>
         </div>
-        <%}
+        <%
             } catch (Exception e) {
 
             }%>
