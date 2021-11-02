@@ -154,5 +154,61 @@ public class ControlDBUsuario {
 
         return usuario;
     }
+    
+    /**
+     * Se elimina un usuario 
+     *
+     * @param nombreUsuario
+     * @return
+     */
+    public boolean eliminarUsuario(String nombreUsuario) {
+        boolean exitoso = true;
+
+        String query = "DELETE FROM usuario WHERE nombreUsuario = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, nombreUsuario);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
+    
+    /**
+     *
+     * @param nombreUsuario
+     * @param nombreCompleto
+     * @param contrasenia
+     * @param tipo
+     * @return
+     */
+    public boolean actualizarUsuario(String nombreUsuario, String nombreCompleto, String contrasenia, int tipo){
+        boolean exitoso = true;
+
+        String query = "UPDATE usuario SET nombre = ?, contrasenia = ? , tipo = ? WHERE nombreUsuario = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, nombreCompleto);
+            preSt.setString(2, contrasenia);
+            preSt.setInt(3, tipo);
+            preSt.setString(4, nombreUsuario);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
+    
 
 }

@@ -370,4 +370,42 @@ public class ControlDBPublicacion {
         return idEt;
     }
 
+    
+    public List<Publicacion> getTodasPublicacionesPublicas() {
+        List<Publicacion> publicaciones = new ArrayList<>();
+
+        String query = "SELECT * FROM publicacion AS p INNER JOIN usuario AS u WHERE u.tipo = 0 AND u.nombreusuario = p.id_usuario ORDER BY p.fecha_publicacion DESC";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                Publicacion publicacion = new Publicacion();
+                publicacion.setIdPublicacion(result.getString(1));
+                publicacion.setNombreUsuario(result.getString(2));
+                publicacion.setContenido(result.getString(3));
+                publicacion.setFecha(result.getString(4));
+                publicaciones.add(publicacion);
+            }
+
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        //Obtener las etiquetas y comentarios de la publicacion
+        for (Publicacion publicacion : publicaciones) {
+            List<String> etiquetas = getTodasEtiquetasPorIdPublicacion(publicacion.getIdPublicacion());
+            publicacion.setEtiquetas(etiquetas);
+
+            List<Comentario> comentarios = getTodosComentariosPorIdPublicacion(publicacion.getIdPublicacion());
+            publicacion.setComentarios(comentarios);
+        }
+
+        return publicaciones;
+    }
+    
+    
+    
 }

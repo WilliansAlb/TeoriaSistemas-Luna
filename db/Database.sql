@@ -43,14 +43,16 @@ CREATE TABLE lugar(
 DROP TABLE IF EXISTS siembra;
 CREATE TABLE siembra(
     id int NOT NULL AUTO_INCREMENT,
-    id_lugar int NOT NULL,
+    id_lugar int NOT NULL,    
     id_cultivo int NOT NULL,
     fechaSiembra DATE NOT NULL,
     cosechado BOOLEAN NOT NULL,
     nombre varchar(255) NOT NULL,
+    id_usuario varchar(255) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_lugar) REFERENCES lugar(id),
-    FOREIGN KEY (id_cultivo) REFERENCES cultivo(id)
+    FOREIGN KEY (id_cultivo) REFERENCES cultivo(id),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(nombreusuario)
 );
 
 /*eventos*/
