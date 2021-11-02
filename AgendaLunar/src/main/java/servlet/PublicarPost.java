@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlet;
 
 import Conexion.ConnectionDB;
@@ -28,8 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "PublicarPost", urlPatterns = {"/PublicarPost"})
 public class PublicarPost extends HttpServlet {
 
-    String ID;
-    String texto;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,75 +38,59 @@ public class PublicarPost extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            ID = request.getParameter("usuario");
-            texto = request.getParameter("texto");
-
-            ID = "mcoupe1";
-
-            doPost(request, response);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ID = request.getParameter("usuario");
-        texto = request.getParameter("texto");
 
-        ID = "mcoupe1";
-        List<Publicacion> publicaciones = new ArrayList<>();
+        String ID= (String)request.getSession().getAttribute("usuario");
+        String texto= request.getParameter("comentario");
+        String etiquetas= request.getParameter("etiqueta");
 
+        
         //establece la conexion a la DB
         ConnectionDB connect = new ConnectionDB();
         Connection connection = connect.getConnection();
-
-        ControlDBPublicacion ControlP = new ControlDBPublicacion(connection);
         ControlDBPublicacion ControlP2 = new ControlDBPublicacion(connection);
+        System.out.println("PUBLICARRRRRRRRRRRRRRR------------/-/-/-/-/-/5");
         try {
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            System.out.println("PUBLICARRRRRRRRRRRRRRR------------/-/-/-/-/-/6");
             System.out.println(timeStamp);
             System.out.println(ID);
             System.out.println(texto);
+            System.out.println(etiquetas);
+            String[] parts = etiquetas.split(",");
             List<String> etiq = new ArrayList<>();
+            
+            for(int i =0;i<parts.length;i++){
+                if(parts[i].equalsIgnoreCase("none")){
+                }else{
+                    etiq.add(parts[i]);
+                }
+                
+            }
+            
+            
             ControlP2.insertarPublicacion(ID, texto, timeStamp, etiq);
         } catch (Exception e) {
-
+            System.out.println("RROR AL PUBLICAR EN SERVLET "+e);
         }
-        //realiza el ingreso de la publicacion en la BD
-
-        //obtiene las publicaciones 
-        publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
-        //obtiene las etiquetas
 
         request.getSession().setAttribute("usuario", ID);
-        request.setAttribute("CON", connection);
-
-        request.setAttribute("PUBLICACIONES", publicaciones);
-        request.getRequestDispatcher("Muro").forward(request, response);
+        
 
         //processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

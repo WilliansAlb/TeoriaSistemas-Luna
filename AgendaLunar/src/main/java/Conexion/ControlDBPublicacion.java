@@ -169,6 +169,7 @@ public class ControlDBPublicacion {
             //Revisar etiqueta
             //Get idsEtiquetas
             List<String> idsEtiquetas = revisarEtiquetas(etiquetas,idPublicacion);
+            System.out.println("INGRESARA ETIQUETAS EN DB");
             exitoso = insertarEtiquetasPublicacion(idsEtiquetas, idPublicacion);
         }
 
