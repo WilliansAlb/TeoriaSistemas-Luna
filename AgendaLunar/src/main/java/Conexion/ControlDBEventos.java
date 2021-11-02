@@ -8,6 +8,7 @@ package Conexion;
 import POJOS.Cultivo;
 import POJOS.Evento;
 import POJOS.Lugar;
+import POJOS.Siembra;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -132,7 +133,7 @@ public class ControlDBEventos {
         boolean exitoso = true;
 
         //Inserta la siembra
-        boolean siembraInsertada = insertarSiembra(idLugar, idCultivo, fechaEvento, nombre);
+        boolean siembraInsertada = insertarSiembra(idLugar, idCultivo, fechaEvento, nombre,idUsuario);
         if (siembraInsertada) {
 
             //get id ultima siembra
@@ -188,16 +189,17 @@ public class ControlDBEventos {
         return exitoso;
     }
 
-    public boolean insertarSiembra(String idLugar, String idCultivo, String fechaSiembra, String nombre) {
+    public boolean insertarSiembra(String idLugar, String idCultivo, String fechaSiembra, String nombre,String idUsuario) {
         boolean exitoso = true;
 
-        String query = "INSERT INTO siembra (id_lugar,id_cultivo,fechaSiembra,cosechado) VALUES (?,?,?,0,?)";
+        String query = "INSERT INTO siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre,id_usuario) VALUES (?,?,?,0,?,?)";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
             preSt.setString(1, idLugar);
             preSt.setString(2, idCultivo);
             preSt.setString(3, fechaSiembra);
             preSt.setString(4, nombre);
+            preSt.setString(5, idUsuario);
 
             preSt.executeUpdate();
 
@@ -299,5 +301,61 @@ public class ControlDBEventos {
         }
         return lugares;
     }
+    
+    /**
+     * Obtiene todas las siembras que tiene un usuario
+     * Devuelve la siembra con su id,nombre de Lugar, nombre de Cultivo, valor de cosechado,nombre de la siembra, y el id usuario
+     * @param idUsuario
+     * @return
+     */
+    public List<Siembra> getTodasLasSiembrasPorUsuario(String idUsuario){
+        List<Siembra> siembras = new ArrayList<>();        
+        String query = "SELECT s.id,l.nombre,c.tipo,s.fechaSiembra,s.cosechado,s.nombre,s.id_usuario FROM siembra AS s INNER JOIN lugar AS l INNER JOIN cultivo AS c WHERE s.id_lugar = l.id AND s.id_cultivo = c.id AND s.id_usuario = ?";
 
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idUsuario);      
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                Siembra siembra = new Siembra();                
+                siembra.setIdSiembra(result.getString(1));
+                siembra.setIdLugar(result.getString(2));
+                siembra.setIdCultivo(result.getString(3));
+                siembra.setFechaSiembra(result.getString(4));
+                siembra.setCosechado(result.getInt(5));
+                siembra.setNombre(result.getString(6));
+                siembra.setIdUsuario(result.getString(7));
+                siembras.add(siembra);
+            }
+
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return siembras;
+    }
+    
+    /**
+     * Actualiza la siembra a tipo de cosechado 1, osea que esta cosechada esa cosa pues
+     * @param idSiembra
+     * @return
+     */
+    public boolean actualizarSiembraCosechar(String idSiembra){
+        boolean exitoso = true;
+
+        String query = "UPDATE siembra SET cosechado = 1 WHERE id = ?";
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+                preSt.setString(1, idSiembra);               
+
+                preSt.executeUpdate();
+
+                preSt.close();
+            } catch (SQLException e) {
+                System.out.println("Error: " + e.getMessage());
+                exitoso = false;
+            }
+
+        return exitoso;
+    }
 }

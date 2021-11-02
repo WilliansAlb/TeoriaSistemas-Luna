@@ -105,9 +105,9 @@ insert into cultivo (tipo) values ('Pasto');
 
 /*---SIEMBRA---*/
 
-insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre) values (1,2,'2021-07-01',0,'Siembra de Maiz');
-insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre) values (2,2,'2021-07-05',0,'Siembra de Arroz');
-insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre) values (1,2,'2021-07-20',0,'Siembra de Sorgo');
+insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre,id_usuario) values (1,2,'2021-07-01',0,'Siembra de Maiz','Admin');
+insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre,id_usuario) values (2,2,'2021-07-05',0,'Siembra de Arroz','Admin');
+insert into siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre,id_usuario) values (1,2,'2021-07-20',0,'Siembra de Sorgo','Admin');
 
 
 /*---EVENTOS CON SIEMBRA---*/
