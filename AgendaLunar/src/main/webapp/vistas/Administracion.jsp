@@ -52,12 +52,12 @@
             <div id="fondo">
                 <h1>Administración</h1>
                 <div id="opciones">
-                    <div>
-                        <img src="../assets/img/o3.png">
-                        <h1>USUARIOS</h1>
-                        <hr style="width:50%">
-                        <a><span>Crear usuario</span></a>
-                        <a><span>Listar usuarios</span></a>
+                <div>
+                    <img src="../assets/img/o3.png">
+                    <h1>USUARIOS</h1>
+                    <hr style="width:50%">
+                    <a><span>Crear usuario</span></a>
+                    <a href="/AgendaLunar/MostrarUsuarios"><span>Listar usuarios</span></a>
                     </div>
                     <div>
                         <img src="../assets/img/o2.png">

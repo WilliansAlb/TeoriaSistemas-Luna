@@ -7,12 +7,12 @@ package servlet;
 
 import Conexion.ConnectionDB;
 import Conexion.ControlDBUsuario;
+import POJOS.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author sergi
  */
-@WebServlet(name = "EliminarUsuario", urlPatterns = {"/EliminarUsuario"})
-public class EliminarUsuario extends HttpServlet {
+@WebServlet(name = "EditarUsuario", urlPatterns = {"/EditarUsuario"})
+public class EditarUsuario extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,7 +36,8 @@ public class EliminarUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("/MostrarUsuarios").forward(request, response);
+        request.getRequestDispatcher("/vistas/EditarUsuario.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -66,7 +67,7 @@ public class EliminarUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Iniciando proceso de elimininacion de usuario");
+        System.out.println("Iniciando proceso de recoleccion de datos de usuario para modificacion");
         
         //recoger los datos
         String nombreUsuario = request.getParameter("nombreUsuario");
@@ -77,8 +78,8 @@ public class EliminarUsuario extends HttpServlet {
         Connection connection = connectionDB.getConnection();
         
         ControlDBUsuario controlDbUsuarios = new ControlDBUsuario(connection);
-        boolean exitoso = controlDbUsuarios.eliminarUsuario(nombreUsuario);        
-        request.setAttribute("exitoso", exitoso);
+        Usuario usuario = controlDbUsuarios.getUsuarioPorNombreUsuario(nombreUsuario);
+        request.setAttribute("usuario", usuario);        
         processRequest(request, response);
     }
 
