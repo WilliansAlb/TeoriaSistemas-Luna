@@ -7,9 +7,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url(../img/calendario2.jpg);
+    /*background-image: url(../img/calendario2.jpg);*/
     background-size: cover;
-    padding: 2rem;
+    /*padding: 2rem;*/
     border-radius: 10px;
     width: 85%;
 }
@@ -60,16 +60,22 @@
     padding-top: 0.5em;
     padding-bottom: 0.5em;*/
     flex-direction: column;
-    padding: 0.1em;
-    background-image: url("../img/crateres.jpg");
+    padding: 0.5em;
+    /*background-image: url("../img/crateres2.jpg");*/
     background-attachment: fixed;
-    color:black;
+    color:white;
 }
 
 .div-dia{
-    display: grid;
+    /*display: grid;
     grid-template-columns: 33% 33% 33%;
+    width: 100%;*/
+        display: flex;
+    flex-direction: row;
     width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
 }
 
 .tarjeta-dia a{
@@ -93,6 +99,7 @@
 .contenedor-calendario{
     color: #303030;
     font-family: "Cabin","Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding-bottom: 3em;
 }
 
 body{
@@ -385,7 +392,94 @@ tbody{
 }
 
 #creacion{
-    background-color:#303030;
     color: white;
     padding: 2em;border-radius: 2em; display:flex; flex-direction: column;
+    background: hsla(248, 87%, 36%, 1);
+
+    background: linear-gradient(90deg, hsla(248, 87%, 36%, 1) 0%, hsla(0, 0%, 19%, 1) 100%);
+
+    background: -moz-linear-gradient(90deg, hsla(248, 87%, 36%, 1) 0%, hsla(0, 0%, 19%, 1) 100%);
+
+    background: -webkit-linear-gradient(90deg, hsla(248, 87%, 36%, 1) 0%, hsla(0, 0%, 19%, 1) 100%);
 }
+
+.colorFondo{
+    
+    background: hsla(248, 87%, 36%, 1);
+
+    background: linear-gradient(90deg, hsla(248, 87%, 36%, 1) 0%, hsla(0, 0%, 19%, 1) 100%);
+
+    background: -moz-linear-gradient(90deg, hsla(248, 87%, 36%, 1) 0%, hsla(0, 0%, 19%, 1) 100%);
+
+    background: -webkit-linear-gradient(90deg, hsla(248, 87%, 36%, 1) 0%, hsla(0, 0%, 19%, 1) 100%);
+}
+
+#encabezado-controles{
+    margin: auto;
+    /*background-color: rgb(255, 205, 205);*/
+    width: fit-content;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../img/calendario2.jpg);
+    background-size: cover;
+    padding: 0.5rem;
+    border-radius: 10px;
+    width: 100%;
+    color: white;
+}
+
+button {
+      width: 150px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      background: red;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+      background: #303030;
+      color: white;
+  }
+  
+  button, button span {
+      transition: 200ms;
+  }
+  
+  button .text {
+      transform: translateX(35px);
+      color: white;
+      font-weight: bold;
+  }
+  
+  button .icon {
+      position: absolute;
+      border-left: 1px solid white;
+      transform: translateX(110px);
+      height: 40px;
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  button svg {
+      width: 15px;
+      fill: #eee;
+  }
+  
+  
+  button:hover .text {
+      color: transparent;
+  }
+  
+  button:hover .icon {
+      width: 150px;
+      border-left: none;
+      transform: translateX(0);
+  }
+  
+  button:focus {
+      outline: none;
+  }
