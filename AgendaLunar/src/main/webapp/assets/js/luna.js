@@ -1,5 +1,5 @@
 window.onload = () => {
-    document.querySelector(".contenedor-calendario").style.filter ="blur(2px)";
+    document.querySelector(".contenedor-calendario").style.filter = "blur(2px)";
     const fecha = new Date();
     var calendario1 = document.querySelector("#contenedor-calendario");
     var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -8,6 +8,8 @@ window.onload = () => {
     let mes = fecha.getMonth();
     let cantidad_dias;
     var repeticiones = 0;
+    var valor1 = -1;
+    var entra = false;
     if (mes == 11) {
         cantidad_dias = new Date(fecha.getFullYear() + 1, 0, 0).getDate();
     } else {
@@ -25,47 +27,66 @@ window.onload = () => {
     if (primer_dia.getDay() != 0) {
         let desde = cantidad_dias_anterior - (primer_dia.getDay() - 1);
         for (let i = desde; i <= cantidad_dias_anterior; i++) {
-            var fase = getMoonPhase(fecha.getFullYear(), mes, i);
+            var fase = obtenerFaseLunar(fecha.getFullYear(), mes, i);
             var actual = false;
             if (fase.texto != fase1) {
                 repeticiones = 0;
+                entra = false;
                 calendario1.appendChild(crearDiv(i, 0.5, fase.fase, fase.texto, actual, repeticiones));
                 fase1 = fase.texto;
             } else {
                 repeticiones++;
-                calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                if (valor1 == fase.fase && !entra) {
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                } else {
+                    valor1 = fase.fase;
+                    entra = true;
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase - 1, "", actual, repeticiones));
+                }
             }
         }
     }
-    repeticiones = 0;
     for (let i = 1; i <= cantidad_dias; i++) {
-        var fase = getMoonPhase(fecha.getFullYear(), mes + 1, i);
+        var fase = obtenerFaseLunar(fecha.getFullYear(), mes + 1, i);
         var actual = (i == dia_actual) ? true : false;
         if (fase.texto != fase1) {
             repeticiones = 0;
+            entra = false;
             calendario1.appendChild(crearDiv(i, 1, fase.fase, fase.texto, actual, repeticiones));
             fase1 = fase.texto;
         } else {
             repeticiones++;
-            calendario1.appendChild(crearDiv(i, 1, fase.fase, "", actual, repeticiones));
+            if (valor1 == fase.fase && !entra) {
+                calendario1.appendChild(crearDiv(i, 1, fase.fase, "", actual, repeticiones));
+            } else {
+                valor1 = fase.fase;
+                entra = true;
+                calendario1.appendChild(crearDiv(i, 1, fase.fase - 1, "", actual, repeticiones));
+            }
         }
     }
     if (cantidad_dias_mas != 0) {
-        repeticiones = 0;
         for (let i = 1; i <= cantidad_dias_mas; i++) {
-            var fase = ((mes + 2) <= 12) ? getMoonPhase(fecha.getFullYear(), mes + 2, i) : getMoonPhase(fecha.getFullYear() + 1, 0, i);
+            var fase = ((mes + 2) <= 12) ? obtenerFaseLunar(fecha.getFullYear(), mes + 2, i) : obtenerFaseLunar(fecha.getFullYear() + 1, 0, i);
             var actual = false;
             if (fase.texto != fase1) {
                 repeticiones = 0;
+                entra = false;
                 calendario1.appendChild(crearDiv(i, 0.5, fase.fase, fase.texto, actual, repeticiones));
                 fase1 = fase.texto;
             } else {
                 repeticiones++;
-                calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                if (valor1 == fase.fase && !entra) {
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                } else {
+                    valor1 = fase.fase;
+                    entra = true;
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase - 1, "", actual, repeticiones));
+                }
             }
         }
     }
-    solicitarEventos(mes+1,fecha.getFullYear());
+    solicitarEventos(mes + 1, fecha.getFullYear());
 };
 
 function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
@@ -82,7 +103,7 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
         var padre1 = this.parentNode;
         var day = padre1.querySelectorAll(".dia")[0];
         var fecha = obtener_mes_anio();
-        var fecha1 = fecha.anio+"-"+fecha.mes+"-"+day.textContent;
+        var fecha1 = fecha.anio + "-" + fecha.mes + "-" + day.textContent;
         document.getElementById("dia_crear").textContent = fecha1;
         $("#oculto2").show();
     };
@@ -109,7 +130,7 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
     spanA.classList = "num";
     spanA.textContent = "0";
     ahref.appendChild(spanA);
-    ahref.style.display ="none";
+    ahref.style.display = "none";
     pintarFase(fase, divMoon, divDisc, repeticiones);
     divDia.appendChild(span);
     if (opacidad == 0.5) {
@@ -134,7 +155,7 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
 }
 
 function pintarFase(fase, luna, disco, repeticion) {
-    var multiplicador = repeticion * 7;
+    var multiplicador = repeticion * (10 - repeticion);
     var escritura = 0;
     switch (fase) {
         case 0:
@@ -180,7 +201,7 @@ function pintarFase(fase, luna, disco, repeticion) {
     }
 }
 
-function getMoonPhase(year, month, day) {
+function obtenerFaseLunar(year, month, day) {
     var c = e = jd = b = bc = 0;
     if (month < 3) {
         year--;
@@ -235,7 +256,7 @@ function getMoonPhase(year, month, day) {
     return compuesta;
 }
 
-function getMoonPhase2(year, month, day) {
+function obtenerFaseLunar2(year, month, day) {
     var c = e = jd = b = 0;
 
     if (month < 3) {
@@ -322,6 +343,8 @@ function cambioFecha() {
     var fec = new Date();
     var anio = parseInt(a);
     var repeticiones = 0;
+    var valor1 = -1;
+    var entra = false;
     var calendario1 = document.querySelector("#contenedor-calendario");
     var anteriores = document.querySelectorAll(".tarjeta-dia");
     for (var i = 0; i < anteriores.length; i++) {
@@ -349,46 +372,67 @@ function cambioFecha() {
         repeticiones = 0;
         let desde = cantidad_dias_anterior - (primer_dia.getDay() - 1);
         for (let i = desde; i <= cantidad_dias_anterior; i++) {
-            var fase = getMoonPhase(anio, mes, i);
+            var fase = obtenerFaseLunar(anio, mes, i);
             var actual = false;
             if (fase.texto != fase1) {
                 repeticiones = 0;
+                entra = false;
                 calendario1.appendChild(crearDiv(i, 0.5, fase.fase, fase.texto, actual, repeticiones));
                 fase1 = fase.texto;
             } else {
                 repeticiones++;
-                calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                if (valor1 == fase.fase && !entra) {
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                } else {
+                    valor1 = fase.fase;
+                    entra = true;
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase - 1, "", actual, repeticiones));
+                }
             }
         }
     }
     repeticiones = 0;
     for (let i = 1; i <= cantidad_dias; i++) {
-        var fase = getMoonPhase(anio, mes + 1, i);
+        var fase = obtenerFaseLunar(anio, mes + 1, i);
         var actual = (anio == fec.getFullYear() && mes == fec.getMonth() && i == fec.getDate()) ? true : false;
         if (fase.texto != fase1) {
             repeticiones = 0;
+            entra = false;
             calendario1.appendChild(crearDiv(i, 1, fase.fase, fase.texto, actual, repeticiones));
             fase1 = fase.texto;
         } else {
             repeticiones++;
-            calendario1.appendChild(crearDiv(i, 1, fase.fase, "", actual, repeticiones));
+            if (valor1 == fase.fase && !entra) {
+                calendario1.appendChild(crearDiv(i, 1, fase.fase, "", actual, repeticiones));
+            } else {
+                valor1 = fase.fase;
+                entra = true;
+                calendario1.appendChild(crearDiv(i, 1, fase.fase - 1, "", actual, repeticiones));
+            }
         }
     }
     repeticiones = 0;
     if (cantidad_dias_mas != 0) {
         for (let i = 1; i <= cantidad_dias_mas; i++) {
-            var fase = ((mes + 2) <= 12) ? getMoonPhase(anio, mes + 2, i) : getMoonPhase(anio + 1, 0, i);
+            var fase = ((mes + 2) <= 12) ? obtenerFaseLunar(anio, mes + 2, i) : obtenerFaseLunar(anio + 1, 0, i);
             var actual = false;
             if (fase.texto != fase1) {
                 repeticiones = 0;
+                entra = false;
                 calendario1.appendChild(crearDiv(i, 0.5, fase.fase, fase.texto, actual, repeticiones));
                 fase1 = fase.texto;
             } else {
                 repeticiones++;
-                calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                if (valor1 == fase.fase && !entra) {
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase, "", actual, repeticiones));
+                } else {
+                    valor1 = fase.fase;
+                    entra = true;
+                    calendario1.appendChild(crearDiv(i, 0.5, fase.fase - 1, "", actual, repeticiones));
+                }
             }
         }
     }
-    
-    solicitarEventos(mes+1,anio);
+
+    solicitarEventos(mes + 1, anio);
 }

@@ -29,7 +29,7 @@
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
             if (session.getAttribute("usuario") == null) {
                 response.sendRedirect("Login.jsp");
-            }else{
+            } else {
                 Integer tipo = (Integer) session.getAttribute("tipo");
                 if (tipo != 0) {
                     response.sendRedirect("/AgendaLunar");
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </nav>
-        <div id="contenedor">
+        <div class="contenedor">
             <div id="fondo">
                 <h1>Administración</h1>
                 <div id="opciones">
@@ -58,30 +58,30 @@
                     <hr style="width:50%">
                     <a><span>Crear usuario</span></a>
                     <a href="/AgendaLunar/MostrarUsuarios"><span>Listar usuarios</span></a>
-                </div>
-                <div>
-                    <img src="../assets/img/o2.png">
-                    <h1>Calendario</h1>
-                    <hr style="width:50%">
-                    <a><span>Crear evento</span></a>
-                    <a><span>Ver calendario</span></a>
-                </div>
-                <div>
-                    <img src="../assets/img/o1.png">
-                    <h1>Blog</h1>
-                    <hr style="width:50%">
-                    <a><span>Crear publicación</span></a>
-                </div>
-                <div>
-                    <img src="../assets/img/o4.png">
-                    <h1>Siembras</h1>
-                    <hr style="width:50%">
-                    <a><span>Crear siembra</span></a>
-                    <a><span>Listar siembras</span></a>
+                    </div>
+                    <div>
+                        <img src="../assets/img/o2.png">
+                        <h1>Calendario</h1>
+                        <hr style="width:50%">
+                        <a><span>Crear evento</span></a>
+                        <a><span>Ver calendario</span></a>
+                    </div>
+                    <div>
+                        <img src="../assets/img/o1.png">
+                        <h1>Blog</h1>
+                        <hr style="width:50%">
+                        <a><span>Crear publicación</span></a>
+                    </div>
+                    <div>
+                        <img src="../assets/img/o4.png">
+                        <h1>Siembras</h1>
+                        <hr style="width:50%">
+                        <a><span>Crear siembra</span></a>
+                        <a><span>Listar siembras</span></a>
+                    </div>
                 </div>
             </div>
-            </div>
-            
         </div>
+        <script src="../assets/js/administracion.js"></script>
     </body>
 </html>

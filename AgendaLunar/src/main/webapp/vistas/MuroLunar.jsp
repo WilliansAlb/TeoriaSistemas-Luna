@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar-1.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tag.css">
-
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/background.css">
 
         <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 

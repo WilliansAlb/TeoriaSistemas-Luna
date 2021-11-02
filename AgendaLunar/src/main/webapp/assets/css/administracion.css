@@ -18,7 +18,7 @@
     border-radius: 0.5em;
 }
 
-#contenedor{
+.contenedor{
     display: flex;
     margin: auto;
     flex-direction: column;
