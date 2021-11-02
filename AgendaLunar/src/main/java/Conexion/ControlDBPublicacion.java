@@ -371,12 +371,13 @@ public class ControlDBPublicacion {
     }
 
     
-    public List<Publicacion> getTodasPublicacionesPublicas() {
+    public List<Publicacion> getTodasPublicacionesPublicas(int limite) {
         List<Publicacion> publicaciones = new ArrayList<>();
 
-        String query = "SELECT * FROM publicacion AS p INNER JOIN usuario AS u WHERE u.tipo = 0 AND u.nombreusuario = p.id_usuario ORDER BY p.fecha_publicacion DESC";
+        String query = "SELECT * FROM publicacion AS p INNER JOIN usuario AS u WHERE u.tipo = 0 AND u.nombreusuario = p.id_usuario ORDER BY p.fecha_publicacion DESC LIMIT ?";
 
-        try (PreparedStatement preSt = connection.prepareStatement(query);) {            
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {   
+            preSt.setInt(1, limite);
 
             ResultSet result = preSt.executeQuery();
             while (result.next()) {
@@ -406,6 +407,119 @@ public class ControlDBPublicacion {
         return publicaciones;
     }
     
+    /**
+     * Realiza una busqueda en las publicaciones privadas, revisa los tags y los contenidos,
+     * Envia primero las publicaciones con los tags y luego con los contenidos
+     * @param busqueda
+     * @param nombreUsuario
+     * @return
+     */
+    public List<Publicacion> busquedaEnPublicacionesPrivadas(String busqueda,String nombreUsuario) {
+        List<Publicacion> publicaciones = new ArrayList<>();
+        
+        String query = "SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,et.nombre FROM publicacion AS p INNER JOIN etiqueta as et INNER JOIN etiqueta_publicacion AS ep WHERE p.id_usuario = ? AND p.id = ep.id_publicacion AND et.id = ep.id_etiqueta AND et.nombre LIKE ? UNION SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,p.id FROM publicacion AS p WHERE p.id_usuario = ? AND p.contenido LIKE ?";
+        
+        busqueda = busqueda.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![");
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {               
+            preSt.setString(1, nombreUsuario);
+            preSt.setString(2, "%"+busqueda+"%");
+            preSt.setString(3, nombreUsuario);
+            preSt.setString(4, "%"+busqueda+"%");
+
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                Publicacion publicacion = new Publicacion();
+                String idPubl = result.getString(1);
+                publicacion.setIdPublicacion(idPubl);
+                publicacion.setNombreUsuario(result.getString(2));
+                publicacion.setContenido(result.getString(3));
+                publicacion.setFecha(result.getString(4));
+                
+                /*--Revisar si ya existe la publicacion--*/
+                boolean existe = existeLaPublicacion(publicaciones,idPubl);
+                if (existe == false) {
+                    publicaciones.add(publicacion);
+                }                
+            }
+
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        //Obtener las etiquetas y comentarios de la publicacion
+        for (Publicacion publicacion : publicaciones) {
+            List<String> etiquetas = getTodasEtiquetasPorIdPublicacion(publicacion.getIdPublicacion());
+            publicacion.setEtiquetas(etiquetas);
+
+            List<Comentario> comentarios = getTodosComentariosPorIdPublicacion(publicacion.getIdPublicacion());
+            publicacion.setComentarios(comentarios);
+        }
+        
+        return publicaciones;
+    }
     
+    /**
+     * Realiza una busqueda en las publicaciones publicas, revisa los tags y los contenidos,
+     * Envia primero las publicaciones con los tags y luego con los contenidos
+     * Espero que funcionen XD y sino pues alv que ganas volverlas a hacer
+     * @param busqueda
+     * @return
+     */
+    public List<Publicacion> busquedaEnPublicacionesPublicas(String busqueda) {
+        List<Publicacion> publicaciones = new ArrayList<>();
+        
+        String query = "SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,et.nombre FROM publicacion AS p INNER JOIN etiqueta as et INNER JOIN etiqueta_publicacion AS ep INNER JOIN usuario AS u WHERE u.tipo = 0 AND p.id_usuario = u.nombreusuario AND p.id = ep.id_publicacion AND et.id = ep.id_etiqueta AND et.nombre LIKE ? UNION SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,p.id FROM publicacion AS p INNER JOIN usuario AS u WHERE u.tipo = 0 AND p.id_usuario = u.nombreusuario AND p.contenido LIKE ?";
+        
+        busqueda = busqueda.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![");
+        
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {               
+            preSt.setString(1, "%"+busqueda+"%");            
+            preSt.setString(2, "%"+busqueda+"%");
+
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                Publicacion publicacion = new Publicacion();
+                String idPubl = result.getString(1);
+                publicacion.setIdPublicacion(idPubl);
+                publicacion.setNombreUsuario(result.getString(2));
+                publicacion.setContenido(result.getString(3));
+                publicacion.setFecha(result.getString(4));
+                
+                /*--Revisar si ya existe la publicacion--*/
+                boolean existe = existeLaPublicacion(publicaciones,idPubl);
+                if (existe == false) {
+                    publicaciones.add(publicacion);
+                }                
+            }
+
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        //Obtener las etiquetas y comentarios de la publicacion
+        for (Publicacion publicacion : publicaciones) {
+            List<String> etiquetas = getTodasEtiquetasPorIdPublicacion(publicacion.getIdPublicacion());
+            publicacion.setEtiquetas(etiquetas);
+
+            List<Comentario> comentarios = getTodosComentariosPorIdPublicacion(publicacion.getIdPublicacion());
+            publicacion.setComentarios(comentarios);
+        }
+        
+        return publicaciones;
+    }   
+    
+    private boolean existeLaPublicacion(List<Publicacion> publicaciones,String idPublicacion){
+        for (Publicacion publicacion : publicaciones) {
+            if (publicacion.getIdPublicacion().equals(idPublicacion)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
