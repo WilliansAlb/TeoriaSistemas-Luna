@@ -48,17 +48,19 @@
                 </div>
             </div>
         </nav>
+                    <form method="post" action="/AgendaLunar/ActualizarUsuario">
                         <%--datos vienen de servlet/EditarUsuario --%>
                         <div id="contenedor">
-                            ${usuario.nombreUsuario}
+                            ${usuario.nombreUsuario} <%--El nombre de usuario no se tiene que modificar --%>
                             <br>
                             ${usuario.nombreCompleto}
                             <br>
                             ${usuario.password}
                             <br>
-                            ${usuario.tipo}
+                            ${usuario.tipo} <%--En el servlet se asumio que enviara un numero (0,1) --%>
                             <br>
                         </div>
+                    </form>
                         
     </body>
 </html>
