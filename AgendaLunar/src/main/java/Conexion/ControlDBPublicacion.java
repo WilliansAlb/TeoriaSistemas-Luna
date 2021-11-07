@@ -511,7 +511,66 @@ public class ControlDBPublicacion {
         }
         
         return publicaciones;
-    }   
+    } 
+    
+    public boolean eliminarPublicacion(String idPublicacion){
+        boolean exitoso = true;
+        eliminarComentariosPublicacion(idPublicacion);
+        eliminarEtiquetasPublicacion(idPublicacion);
+
+        String query = "DELETE FROM publicacion WHERE id = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idPublicacion);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error:... " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
+    
+    private boolean eliminarComentariosPublicacion(String idPublicacion){
+        boolean exitoso = true;
+
+        String query = "DELETE FROM comentario WHERE id_publicacion = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idPublicacion);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error:... " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
+    
+    private boolean eliminarEtiquetasPublicacion(String idPublicacion){
+        boolean exitoso = true;
+
+        String query = "DELETE FROM etiqueta_publicacion WHERE id_publicacion = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idPublicacion);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error:... " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
     
     private boolean existeLaPublicacion(List<Publicacion> publicaciones,String idPublicacion){
         for (Publicacion publicacion : publicaciones) {
