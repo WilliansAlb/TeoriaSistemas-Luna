@@ -88,7 +88,7 @@
 
                                 ControlDBPublicacion ControlPP = new ControlDBPublicacion(connection);
                                 //obtiene las publicaciones 
-                                publicaciones = ControlPP.getTodasPublicacionesPorNombreUsuario(ID);
+                                //publicaciones = ControlPP.get
                                 if (publicaciones.size() > 0) {
                                     for (Publicacion my_post : publicaciones) {
                         %>
