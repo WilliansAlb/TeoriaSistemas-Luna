@@ -36,10 +36,8 @@
             <div class="container"><a class="navbar-brand" href="../index.jsp"><img src="../assets/img/icono1.png" width="40px">Agenda Lunar</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item nav-link"><a class="nav-link" href="../index.jsp">TS INFO</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Blog.jsp">BLOG</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link active" href="Login.jsp">Login</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="../index.jsp">TS INFO</a></li>                        
+                        <li class="nav-item nav-link"><a class="nav-link active" href="Login.jsp">Login</a></li>                        
                     </ul>
                 </div>
             </div>
