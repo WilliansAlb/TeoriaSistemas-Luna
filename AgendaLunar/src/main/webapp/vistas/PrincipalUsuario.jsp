@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Administración</title>
+        <title>Principal</title>
         <link rel="shortcut icon" href="../assets/img/icono1.png" type="image/x-icon">
         <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
@@ -31,7 +31,7 @@
                 response.sendRedirect("Login.jsp");
             } else {
                 Integer tipo = (Integer) session.getAttribute("tipo");
-                if (tipo != 0) {
+                if (tipo != 1) {
                     response.sendRedirect("/AgendaLunar");
                 }
             }
@@ -53,13 +53,6 @@
             <div id="fondo">
                 <h1>Administración</h1>
                 <div id="opciones">
-                <div>
-                    <img src="../assets/img/o3.png">
-                    <h1>USUARIOS</h1>
-                    <hr style="width:50%">
-                    <a href="CrearUsuario.jsp"><span>Crear usuario</span></a>
-                    <a href="/AgendaLunar/MostrarUsuarios"><span>Listar usuarios</span></a>
-                    </div>
                     <div>
                         <img src="../assets/img/o2.png">
                         <h1>Calendario</h1>

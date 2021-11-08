@@ -49,7 +49,7 @@ public class C_Login extends HttpServlet {
                if (usuario.getTipo() == 0) {
                    response.sendRedirect("/AgendaLunar/vistas/Administracion.jsp");
                }else{
-                   response.sendRedirect("/AgendaLunar");
+                   response.sendRedirect("/AgendaLunar/vistas/PrincipalUsuario.jsp");
                }               
            }else{
                requestError(request,response);

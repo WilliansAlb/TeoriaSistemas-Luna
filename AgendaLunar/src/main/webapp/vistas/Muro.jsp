@@ -44,9 +44,9 @@
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item nav-link "><a class="nav-link" href="Administracion.jsp">Principal</a></li>
                             <li class="nav-item nav-link"><a class="nav-link" href="Calendario.jsp">Calendario</a></li>
-                            <li class="nav-item nav-link"><a class="nav-link active" href="Muro.jsp">Mi Blog personal</a></li>
-                            <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
-                            <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Cerrar Session</a></li>
+                            <li class="nav-item nav-link"><a class="nav-link active" href="Muro.jsp">Muro Privado</a></li>
+                            <li class="nav-item nav-link"><a class="nav-link " href="MuroPublico.jsp">Muro Publico</a></li>                            
+                            <li class="nav-item nav-link"><a class="nav-link" href="/AgendaLunar/Logout">Cerrar Session</a></li>
                         </ul>
                     </div>
                 </div>
