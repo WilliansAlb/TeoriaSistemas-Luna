@@ -93,7 +93,7 @@
                     </thead>
                     <tbody id="tbody_siembras" style="color:white;">
                         <%
-                                List<Lugar> lugares = cdb.getTodosLugares("Admin");
+                                List<Lugar> lugares = cdb.getTodosLugares(session.getAttribute("usuario").toString());
                                 if (lugares.size()>0){
                                 for (int i = 0; i < lugares.size(); i++) {
                             %>

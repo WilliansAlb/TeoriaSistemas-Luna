@@ -158,7 +158,7 @@
                         <select name="cultivos" id="cultivos">
                             <%
                                 List<Cultivo> cultivos = ctr.getTodosLosTiposDeCultivos();
-                                for (int i = 0; i < lugares.size(); i++) {
+                                for (int i = 0; i < cultivos.size(); i++) {
                             %>
                             <option value="<%out.print(cultivos.get(i).getIdCultivo());%>"><%out.print(cultivos.get(i).getTipo());%></option>
                             <%
