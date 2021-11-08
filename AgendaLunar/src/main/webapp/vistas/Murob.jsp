@@ -3,7 +3,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="POJOS.*"%>
 <%@page import="java.util.List"%>
-<%@page import="servlet.*"%>
 
 <!DOCTYPE html>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -23,6 +22,8 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar-1.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gradient-navbar.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tag.css">
+
+
         <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Profile-with-data-and-skills.css">
@@ -35,6 +36,7 @@
                 //response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
             }
             String ID = (String) request.getSession().getAttribute("usuario");
+            String contenido = (String) request.getSession().getAttribute("contenido");
         %>
 
         <div id="main-content" class="blog-page">
@@ -58,24 +60,6 @@
                 <div class="row clearfix">
                     <div class="col-lg-8 col-md-12 left-box">
 
-                        <div class="card" align="center" id="publicacion" name="publicacion" >
-
-                            <input type="text" class="form-control" id="usuario" name="usuario"  style="display: none;">
-                            
-                            <textarea id="textop" rows="5" placeholder="En que estas pensando..." ></textarea>
-                            
-                            <div class="container">
-
-                                <div class="tag-container">
-                                    <input  />  
-                                </div>
-
-                            </div>     
-
-                            <button type="button" onclick="publicar();" class="btn btn-success" >Publicar</button>
-
-                        </div>
-
 
                         <%
                             try {
@@ -87,7 +71,7 @@
 
                                 ControlDBPublicacion ControlPP = new ControlDBPublicacion(connection);
                                 //obtiene las publicaciones 
-                                publicaciones = ControlPP.getTodasPublicacionesPorNombreUsuario(ID);
+                                publicaciones = ControlPP.busquedaEnPublicacionesPrivadas(contenido, ID);
                                 if (publicaciones.size() > 0) {
                                     for (Publicacion my_post : publicaciones) {
                         %>
@@ -101,8 +85,7 @@
                             <div class="body">
                                 <!--<h3><a href="">Posible titulo</a></h3>-->
                                 <p> <%=my_post.getContenido()%> </p>
-                            </div>
-                            
+                            </div>     
                             <%
                                 ///ETIQUETAS
                                 ControlDBPublicacion ControlP = new ControlDBPublicacion(connection);
@@ -190,15 +173,18 @@
                             </div>
                         </div>                         
                         <%  }
-                                }
+                                }else{%>
+                                <h2>ERRROR</h2>
+<%}
                             } catch (Exception e) {
+
                             } //termina for de publicacion %>
 
                     </div>
                     <div class="col-lg-4 col-md-12 right-box">
                         <div class="card">
                             <div class="body search">
-                                <form action="../BuscarPublicacion" method="GET" >
+                                <form action="BuscarPublicacion" method="GET" >
                                     <div class="input-group m-b-0">
                                         <input required="Ingresa un campo valido" id="busqueda" name="busqueda" type="text" class="form-control" placeholder="Buscar Publicacion...">  
                                         <div class="input-group-prepend">
@@ -285,6 +271,7 @@
         <script src="${pageContext.request.contextPath}/assets/js/tag.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/EliminarPost.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/Publicar.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/EliminarPost.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </body>
 

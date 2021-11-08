@@ -419,7 +419,7 @@ public class ControlDBPublicacion {
         
         String query = "SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,et.nombre FROM publicacion AS p INNER JOIN etiqueta as et INNER JOIN etiqueta_publicacion AS ep WHERE p.id_usuario = ? AND p.id = ep.id_publicacion AND et.id = ep.id_etiqueta AND et.nombre LIKE ? UNION SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,p.id FROM publicacion AS p WHERE p.id_usuario = ? AND p.contenido LIKE ?";
         
-        busqueda = busqueda.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![");
+        //busqueda = busqueda.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![");
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {               
             preSt.setString(1, nombreUsuario);
@@ -511,7 +511,66 @@ public class ControlDBPublicacion {
         }
         
         return publicaciones;
-    }   
+    } 
+    
+    public boolean eliminarPublicacion(String idPublicacion){
+        boolean exitoso = true;
+        eliminarComentariosPublicacion(idPublicacion);
+        eliminarEtiquetasPublicacion(idPublicacion);
+
+        String query = "DELETE FROM publicacion WHERE id = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idPublicacion);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error:... " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
+    
+    private boolean eliminarComentariosPublicacion(String idPublicacion){
+        boolean exitoso = true;
+
+        String query = "DELETE FROM comentario WHERE id_publicacion = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idPublicacion);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error:... " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
+    
+    private boolean eliminarEtiquetasPublicacion(String idPublicacion){
+        boolean exitoso = true;
+
+        String query = "DELETE FROM etiqueta_publicacion WHERE id_publicacion = ?";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, idPublicacion);
+
+            preSt.executeUpdate();
+
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error:... " + e.getMessage());
+            exitoso = false;
+        }
+
+        return exitoso;
+    }
     
     private boolean existeLaPublicacion(List<Publicacion> publicaciones,String idPublicacion){
         for (Publicacion publicacion : publicaciones) {

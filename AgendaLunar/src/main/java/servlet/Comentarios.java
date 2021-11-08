@@ -82,23 +82,17 @@ public class Comentarios extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.getWriter().write(json);
-        
-        
+
         
 //        //establece la conexion a la DB
-//        ConnectionDB connect2 = new ConnectionDB();Connection connection2 = connect2.getConnection();ControlDBUsuario user=new ControlDBUsuario(connection2);Usuario us;us=user.getUsuarioPorNombreUsuario(comentario);us.getNombreCompleto();
-//        
+//        ConnectionDB connect2 = new ConnectionDB();Connection connection2 = connect2.getConnection();ControlDBUsuario user=new ControlDBUsuario(connection2);Usuario us;us=user.getUsuarioPorNombreUsuario(comentario);us.getNombreCompleto();        
         System.out.println(ID+" USER");
         System.out.println(id_publicacion+" publicacion");
         System.out.println(comentario+" comentario");
         
         
         request.getSession().setAttribute("usuario", ID);
-//        //System.out.println(com+"el comentario");
-//        response.setContentType("text/plain");
-//        response.getWriter().write(id_publicacion);
-        
-        //processRequest(request, response);
+
     }
 
 

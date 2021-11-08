@@ -7,12 +7,10 @@ package servlet;
 
 import Conexion.ConnectionDB;
 import Conexion.ControlDBPublicacion;
-import POJOS.Publicacion;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,9 +21,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author James Gramajo
  */
-@WebServlet(name = "Muro", urlPatterns = {"/Muro"})
-public class Muro extends HttpServlet {
-String ID;
+@WebServlet(name = "BuscarPublicacion", urlPatterns = {"/BuscarPublicacion"})
+public class BuscarPublicacion extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,45 +36,26 @@ String ID;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         try (PrintWriter out = response.getWriter()) {
 
         }
     }
 
-   
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        
+        //busqueda
+        String ID = (String)request.getSession().getAttribute("usuario");
+        String busqueda = request.getParameter("busqueda");
+
+        request.getSession().setAttribute("usuario", ID);
+        request.setAttribute("contenido",busqueda );
+        request.getRequestDispatcher("vistas/Murob.jsp").forward(request, response);
     }
 
-
-    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-               
-//                List<Publicacion> publicaciones = new ArrayList<>();
-//                
-//                
-//                //establece la conexion a la DB
-//                ConnectionDB connect = new ConnectionDB();
-//                Connection connection = connect.getConnection();
-//                
-//                ControlDBPublicacion ControlP=new ControlDBPublicacion(connection);
-//                //obtiene las publicaciones 
-//                publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
-//                //obtiene las etiquetas
-//                
-//                request.getSession().setAttribute("usuario", ID);
-//                request.setAttribute("CON", connection);
-//                
-//                request.setAttribute("PUBLICACIONES", publicaciones);
-//                request.getRequestDispatcher("vistas/Muro.jsp").forward(request, response);
-                
-        
-        
-        
         //processRequest(request, response);
     }
 
@@ -87,5 +66,3 @@ String ID;
     }// </editor-fold>
 
 }
-
-
