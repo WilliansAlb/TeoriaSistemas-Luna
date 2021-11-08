@@ -420,12 +420,13 @@ public class ControlDBPublicacion {
         String query = "SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,et.nombre FROM publicacion AS p INNER JOIN etiqueta as et INNER JOIN etiqueta_publicacion AS ep WHERE p.id_usuario = ? AND p.id = ep.id_publicacion AND et.id = ep.id_etiqueta AND et.nombre LIKE ? UNION SELECT p.id,p.id_usuario,p.contenido,p.fecha_publicacion,p.id FROM publicacion AS p WHERE p.id_usuario = ? AND p.contenido LIKE ?";
         
         //busqueda = busqueda.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![");
+        busqueda = "%"+busqueda+"%";
         
         try (PreparedStatement preSt = connection.prepareStatement(query);) {               
             preSt.setString(1, nombreUsuario);
-            preSt.setString(2, "%"+busqueda+"%");
+            preSt.setString(2, busqueda);
             preSt.setString(3, nombreUsuario);
-            preSt.setString(4, "%"+busqueda+"%");
+            preSt.setString(4, busqueda);
 
             ResultSet result = preSt.executeQuery();
             while (result.next()) {

@@ -58,6 +58,7 @@
                         <h1>Calendario</h1>
                         <hr style="width:50%">                        
                         <a href="Calendario.jsp"><span>Ver calendario</span></a>
+                        <a href="Estadisticas.jsp"><span>Ver estadisticas</span></a>
                     </div>
                     <div>
                         <img src="../assets/img/o1.png">
@@ -70,7 +71,9 @@
                         <img src="../assets/img/o4.png">
                         <h1>Siembras</h1>
                         <hr style="width:50%">
-                        <a href="Siembras.jsp"><span>Administrar Siembras</span></a>                        
+                        <a href="Siembras.jsp"><span>Administrar Siembras</span></a>                                                  
+                        <a href="Lugares.jsp"><span>Administrar Lugares</span></a>                        
+                        <a href="Cultivos.jsp"><span>Administrar Cultivos</span></a> 
                     </div>
                 </div>
             </div>

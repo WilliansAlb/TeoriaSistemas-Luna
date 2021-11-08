@@ -36,7 +36,7 @@
                 //response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
             }
             String ID = (String) request.getSession().getAttribute("usuario");
-            String contenido = (String) request.getSession().getAttribute("contenido");
+            String contenido = (String) request.getAttribute("contenido");
         %>
 
         <div id="main-content" class="blog-page">
@@ -44,11 +44,11 @@
                 <div class="container"><a class="navbar-brand" href="#"><img src="../assets/img/icono1.png" width="40px">Agenda Lunar</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav ms-auto">
-                            <li class="nav-item nav-link "><a class="nav-link" href="Administracion.jsp">Principal</a></li>
-                            <li class="nav-item nav-link"><a class="nav-link" href="Calendario.jsp">Calendario</a></li>
-                            <li class="nav-item nav-link"><a class="nav-link active" href="Muro.jsp">Mi Blog personal</a></li>
-                            <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
-                            <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Cerrar Session</a></li>
+                            <li class="nav-item nav-link "><a class="nav-link" href="vistas/Administracion.jsp">Principal</a></li>
+                            <li class="nav-item nav-link"><a class="nav-link" href="vistas/Calendario.jsp">Calendario</a></li>
+                            <li class="nav-item nav-link"><a class="nav-link active" href="vistas/Muro.jsp">Muro Privado</a></li>
+                            <li class="nav-item nav-link"><a class="nav-link " href="vistas/MuroPublico.jsp">Muro Publico</a></li>      
+                            <li class="nav-item nav-link"><a class="nav-link" href="/Logout">Cerrar Session</a></li>
                         </ul>
                     </div>
                 </div>

@@ -57,14 +57,14 @@
                     <img src="../assets/img/o3.png">
                     <h1>USUARIOS</h1>
                     <hr style="width:50%">
-                    <a href="CrearUsuario.jsp"><span>Crear usuario</span></a>
-                    <a href="/AgendaLunar/MostrarUsuarios"><span>Listar usuarios</span></a>
+                    <a href="CrearUsuario.jsp"><span>Administrar Usuarios</span></a>
                     </div>
                     <div>
                         <img src="../assets/img/o2.png">
                         <h1>Calendario</h1>
                         <hr style="width:50%">                        
                         <a href="Calendario.jsp"><span>Ver calendario</span></a>
+                        <a href="Estadisticas.jsp"><span>Ver estadisticas</span></a>
                     </div>
                     <div>
                         <img src="../assets/img/o1.png">
@@ -78,6 +78,8 @@
                         <h1>Siembras</h1>
                         <hr style="width:50%">
                         <a href="Siembras.jsp"><span>Administrar Siembras</span></a>                        
+                        <a href="Lugares.jsp"><span>Administrar Lugares</span></a>                        
+                        <a href="Cultivos.jsp"><span>Administrar Cultivos</span></a>                        
                     </div>
                 </div>
             </div>
