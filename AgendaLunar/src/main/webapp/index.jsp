@@ -45,9 +45,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item nav-link"><a class="nav-link active" href="index.jsp">TS INFO</a></li>
-                    <li class="nav-item nav-link"><a class="nav-link" href="vistas/Blog.jsp">BLOG</a></li>
                     <li class="nav-item nav-link"><a class="nav-link" href="vistas/Login.jsp">Login</a></li>
-                    <li class="nav-item nav-link"><a class="nav-link" href="vistas/Cuenta.jsp">Cuenta</a></li>
                 </ul>
             </div>
         </div>
