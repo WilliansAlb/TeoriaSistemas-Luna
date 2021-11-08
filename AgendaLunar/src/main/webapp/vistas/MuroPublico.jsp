@@ -58,25 +58,6 @@
                 <div class="row clearfix">
                     <div class="col-lg-8 col-md-12 left-box">
 
-                        <div class="card" align="center" id="publicacion" name="publicacion" >
-
-                            <input type="text" class="form-control" id="usuario" name="usuario"  style="display: none;">
-                            
-                            <textarea id="textop" rows="5" placeholder="En que estas pensando..." ></textarea>
-                            
-                            <div class="container">
-
-                                <div class="tag-container">
-                                    <input  />  
-                                </div>
-
-                            </div>     
-
-                            <button type="button" onclick="publicar();" class="btn btn-success" >Publicar</button>
-
-                        </div>
-
-
                         <%
                             try {
                                 List<Publicacion> publicaciones = new ArrayList<>();
@@ -87,7 +68,7 @@
 
                                 ControlDBPublicacion ControlPP = new ControlDBPublicacion(connection);
                                 //obtiene las publicaciones 
-                                publicaciones = ControlPP.getTodasPublicacionesPorNombreUsuario(ID);
+                                publicaciones = ControlPP.getTodasPublicacionesPublicas(15);
                                 if (publicaciones.size() > 0) {
                                     for (Publicacion my_post : publicaciones) {
                         %>
