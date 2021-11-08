@@ -6,23 +6,19 @@
 package servlet;
 
 import Conexion.ConnectionDB;
-import Conexion.ControlDBUsuario;
+import Conexion.ControlDBEventos;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author sergi
+ * @author willi
  */
-@WebServlet(name = "EliminarUsuario", urlPatterns = {"/EliminarUsuario"})
-public class EliminarUsuario extends HttpServlet {
+public class Recomendacion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,7 +32,18 @@ public class EliminarUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("/MostrarUsuarios").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Recomendacion</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Recomendacion at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -51,15 +58,15 @@ public class EliminarUsuario extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nombreUsuario = request.getParameter("nombreUsuario");
-        ConnectionDB connectionDB = new ConnectionDB();
-        ControlDBUsuario controlDbUsuarios = new ControlDBUsuario(connectionDB.getConnection());
-        boolean exitoso = controlDbUsuarios.eliminarUsuario(nombreUsuario);   
+        int id_siembra = Integer.parseInt(request.getParameter("siembra"));
+        ConnectionDB cn = new ConnectionDB();
+        ControlDBEventos cdb = new ControlDBEventos(cn.getConnection());
         response.setContentType("text/plain");
-        if (exitoso){
-            response.getWriter().write("ELIMINADO");
-        } else {
+        String res = cdb.obtenerNombreCultivo(id_siembra);
+        if (res.equalsIgnoreCase("")){
             response.getWriter().write("ERROR");
+        } else {
+            response.getWriter().write(res);
         }
     }
 
@@ -74,19 +81,6 @@ public class EliminarUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Iniciando proceso de elimininacion de usuario");
-        
-        //recoger los datos
-        String nombreUsuario = request.getParameter("nombreUsuario");
-        
-        
-        //conectar db
-        ConnectionDB connectionDB = new ConnectionDB();
-        Connection connection = connectionDB.getConnection();
-        
-        ControlDBUsuario controlDbUsuarios = new ControlDBUsuario(connection);
-        boolean exitoso = controlDbUsuarios.eliminarUsuario(nombreUsuario);        
-        request.setAttribute("exitoso", exitoso);
         processRequest(request, response);
     }
 

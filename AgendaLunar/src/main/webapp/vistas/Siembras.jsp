@@ -39,19 +39,16 @@
             if (session.getAttribute("usuario") == null) {
                 response.sendRedirect("Login.jsp");
             } else {
-                Integer tipo = (Integer) session.getAttribute("tipo");
-                if (tipo != 0) {
-                    response.sendRedirect("/AgendaLunar");
-                }
         %>
         <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
             <div class="container"><a class="navbar-brand" href="../index.jsp"><img src="../assets/img/icono1.png" width="40px">Agenda Lunar</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS INFO</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Blog.jsp">BLOG</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Login</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
+                    <ul class="navbar-nav ms-auto">                        
+                        <li class="nav-item nav-link"><a class="nav-link" href="Administracion.jsp" >Principal</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="Calendario.jsp">Calendario</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="Muro.jsp">Muro Privado</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="MuroPublico.jsp">Muro Publico</a></li>                        
+                        <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Cerrar Sesion</a></li>               
                     </ul>
                 </div>
             </div>
@@ -111,7 +108,7 @@
                         <label for="nombre">Nombre que identificará a la siembra:</label>
                         <input type="text" id="nombre" name="nombre">
                     </div>
-                    <button onclick="crear_evento()">SEMBRAR</button>
+                    <input class="btn btn-info" value="Crear" type="button" onclick="crear_evento()">
                 </div>
             </div>
             <div class="table-responsive">
@@ -165,7 +162,7 @@
                 <img src="../assets/img/o6.png" width="50px" id="img_tipo">
                 <h1 id="tipo_mensaje">ERROR</h1>
                 <span id="mensaje"></span>
-                <button onclick="document.getElementById('oculto3').style.display = 'none';" style="background-color:green;width:fit-content;margin:auto;">OK</button>
+                <input style="background-color:green;width:fit-content;margin:auto;" class="btn btn-info" value="Cerrar" type="button" onclick="document.getElementById('oculto3').style.display = 'none';">
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

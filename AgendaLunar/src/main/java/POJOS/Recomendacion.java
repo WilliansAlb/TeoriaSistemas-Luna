@@ -36,7 +36,4 @@ public class Recomendacion {
         this.contenido = contenido;
     }
     
-    
-    
-    
 }

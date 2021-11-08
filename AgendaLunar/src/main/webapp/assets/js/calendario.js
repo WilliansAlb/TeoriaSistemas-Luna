@@ -119,7 +119,7 @@ function solicitarEventos(mes, anio) {
                 setTimeout(() => {
                     document.getElementById("cargando").style.display = "none";
                     document.querySelector(".contenedor-calendario").style.filter = "blur(0px)";
-                }, 1000);
+                }, 500);
             });
 }
 
@@ -147,7 +147,10 @@ function crear_evento() {
     var des = document.getElementById("descripcion_evento").value;
     var es = document.getElementById("evento_tipo");
     if (nom == "" || des == "") {
-        alert("Rellena los campos");
+        document.getElementById("img_tipo").src = "../assets/img/o6.png";
+        $("#tipo_mensaje").text("FALTA");
+        $("#mensaje").text("Rellena los campos");
+        document.getElementById("oculto3").style.display = "flex";
     } else {
         if (es.checked) {
             //acá van los eventos que si son tipo siembra
@@ -158,10 +161,13 @@ function crear_evento() {
                 crear_evento_siembra(nom, des, dim, cult, luga);
             } else {
                 var s2 = document.getElementById("evt_siembra").value;
-                if (s2==-1){
+                if (s2 == -1) {
                     var hacer_siembra = document.getElementById("hacer_siembra").value;
-                    if (hacer_siembra==''){
-                        alert("Ingresa lo que se le hará a la siembra");
+                    if (hacer_siembra == '') {
+                        document.getElementById("img_tipo").src = "../assets/img/o6.png";
+                        $("#tipo_mensaje").text("FALTA");
+                        $("#mensaje").text("Ingresa lo que se le hará a la siembra");
+                        document.getElementById("oculto3").style.display = "flex";
                         return;
                     } else {
                         crear_evento_id_siembra(nom, des, dim, s1, hacer_siembra);
@@ -173,7 +179,10 @@ function crear_evento() {
         } else {
             var tipo = document.getElementById("tipo_evento").value;
             if (tipo == "") {
-                alert("Rellena el campo de tipo de evento");
+                document.getElementById("img_tipo").src = "../assets/img/o6.png";
+                $("#tipo_mensaje").text("FALTA");
+                $("#mensaje").text("Rellena el campo de tipo de evento");
+                document.getElementById("oculto3").style.display = "flex";
             } else {
                 crear_evento_normal(nom, des, tipo, dim);
             }
@@ -186,13 +195,32 @@ function cambiando_select(select, divmostrar, otrodiv) {
         document.getElementById(divmostrar).style.display = "flex";
         if (otrodiv != '') {
             document.getElementById(otrodiv).style.display = "none";
+            ver_recomendacion();
         }
     } else {
         document.getElementById(divmostrar).style.display = "none";
         if (otrodiv != '') {
             document.getElementById(otrodiv).style.display = "flex";
+            obtener_recomendacion();
         }
     }
+}
+
+function ver_recomendacion() {
+    var fa = document.getElementById("temp-fase").value;
+    var re = getRecomendacion(fa, document.getElementById("cultivos").options[document.getElementById("cultivos").selectedIndex].text);
+    document.getElementById("id_recomendacion").textContent = re;
+}
+
+function obtener_recomendacion() {
+    var id_siembra = document.getElementById("siembras").value;
+    fetch("../Recomendacion?siembra=" + id_siembra, {
+        method: "GET"
+    }).then(response => response.text()).then(data => {
+        var fa = document.getElementById("temp-fase").value;
+        var re = getRecomendacion(fa, data);
+        document.getElementById("id_recomendacion").textContent = re;
+    });
 }
 
 function crear_evento_normal(nombre, descripcion, tipo1, fecha) {
@@ -220,6 +248,8 @@ function crear_evento_normal(nombre, descripcion, tipo1, fecha) {
                 document.getElementById("img_tipo").src = "../assets/img/o7.png";
                 $("#tipo_mensaje").text("INGRESO EXITOSO");
                 $("#mensaje").text("Se ha ingresado exitosamente el evento");
+                document.getElementById("oculto2").style.display = "none";
+                cambioFecha();
             }
         },
         error: function (data) {
@@ -229,7 +259,6 @@ function crear_evento_normal(nombre, descripcion, tipo1, fecha) {
 }
 
 function crear_evento_siembra(nombre, descripcion, fecha, cultivo, lugar) {
-    console.log(fecha);
     var data = {nombre: nombre, descripcion: descripcion, esSiembra: "true", fecha: fecha, cultivo: cultivo, lugar: lugar};
     $.ajax({
         type: "POST",
@@ -254,6 +283,8 @@ function crear_evento_siembra(nombre, descripcion, fecha, cultivo, lugar) {
                 document.getElementById("img_tipo").src = "../assets/img/o7.png";
                 $("#tipo_mensaje").text("INGRESO EXITOSO");
                 $("#mensaje").text("Se ha ingresado exitosamente el evento");
+                document.getElementById("oculto2").style.display = "none";
+                cambioFecha();
             }
         },
         error: function (data) {
@@ -263,7 +294,7 @@ function crear_evento_siembra(nombre, descripcion, fecha, cultivo, lugar) {
 }
 
 function crear_evento_id_siembra(nombre, descripcion, fecha, id_siembra, tipo) {
-    var data = {nombre: nombre, descripcion: descripcion, esSiembra: "true", fecha: fecha, id_siembra:id_siembra, tipo:tipo};
+    var data = {nombre: nombre, descripcion: descripcion, esSiembra: "true", fecha: fecha, id_siembra: id_siembra, tipo: tipo};
     $.ajax({
         type: "POST",
         url: "../Calendario",
@@ -287,6 +318,8 @@ function crear_evento_id_siembra(nombre, descripcion, fecha, id_siembra, tipo) {
                 document.getElementById("img_tipo").src = "../assets/img/o7.png";
                 $("#tipo_mensaje").text("INGRESO EXITOSO");
                 $("#mensaje").text("Se ha ingresado exitosamente el evento");
+                document.getElementById("oculto2").style.display = "none";
+                cambioFecha();
             }
         },
         error: function (data) {

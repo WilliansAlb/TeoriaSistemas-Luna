@@ -70,7 +70,7 @@
     /*display: grid;
     grid-template-columns: 33% 33% 33%;
     width: 100%;*/
-        display: flex;
+    display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: space-around;
@@ -201,6 +201,23 @@ a.agregar{
     text-decoration: none;
 }
 
+a.agregar2{
+    position: relative;
+    display: block;
+    height: 2em;
+    width: 2em;
+    background: url('../img/information.png');
+    background-size: contain;
+    text-decoration: none;
+}
+
+a.agregar2:hover{
+    cursor:pointer;
+    transform: scale(1.5);
+    background-color:transparent;
+    z-index: 100;
+}
+
 a.agregar:hover{
     cursor:pointer;
     transform: scale(1.5);
@@ -218,21 +235,21 @@ a.notif:hover{
 }
 
 @keyframes example {
-  0% {
-      transform: rotateZ(0deg);
-  }
-  25% {
-      transform: rotateZ(25deg);
-  }
-  50% {
-      transform: rotateZ(0deg);
-  }
-  75% {
-      transform: rotateZ(-25deg);
-  }
-  100% {
-      transform: rotateZ(0deg);
-  }
+    0% {
+        transform: rotateZ(0deg);
+    }
+    25% {
+        transform: rotateZ(25deg);
+    }
+    50% {
+        transform: rotateZ(0deg);
+    }
+    75% {
+        transform: rotateZ(-25deg);
+    }
+    100% {
+        transform: rotateZ(0deg);
+    }
 }
 .num {
     position: absolute;
@@ -277,6 +294,7 @@ a.notif:hover{
 
 .div-dia{
     margin-bottom: 5px;
+    flex-wrap: wrap;
 }
 
 .eventos{
@@ -284,17 +302,17 @@ a.notif:hover{
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 table{
@@ -305,67 +323,67 @@ tbody{
 }
 
 .switch-button {
-	 background: rgba(255, 255, 255, 0.56);
-	 border-radius: 30px;
-	 overflow: hidden;
-	 width: 240px;
-	 text-align: center;
-	 font-size: 18px;
-	 letter-spacing: 1px;
-	 color: #303030;
-	 position: relative;
-	 padding-right: 120px;
-	 position: relative;
+    background: rgba(255, 255, 255, 0.56);
+    border-radius: 30px;
+    overflow: hidden;
+    width: 240px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: #303030;
+    position: relative;
+    padding-right: 120px;
+    position: relative;
 }
- .switch-button:before {
-	 content: "Siembra";
-	 position: absolute;
-	 top: 0;
-	 bottom: 0;
-	 right: 0;
-	 width: 120px;
-	 display: flex;
-	 align-items: center;
-	 justify-content: center;
-	 z-index: 3;
-	 pointer-events: none;
+.switch-button:before {
+    content: "Siembra";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
 }
- .switch-button-checkbox {
-	 cursor: pointer;
-	 position: absolute;
-	 top: 0;
-	 left: 0;
-	 bottom: 0;
-	 width: 100%;
-	 height: 100%;
-	 opacity: 0;
-	 z-index: 2;
+.switch-button-checkbox {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
 }
- .switch-button-checkbox:checked + .switch-button-label:before {
-	 transform: translateX(120px);
-	 transition: transform 300ms linear;
+.switch-button-checkbox:checked + .switch-button-label:before {
+    transform: translateX(120px);
+    transition: transform 300ms linear;
 }
- .switch-button-checkbox + .switch-button-label {
-	 position: relative;
-	 padding: 15px 0;
-	 display: block;
-	 user-select: none;
-	 pointer-events: none;
+.switch-button-checkbox + .switch-button-label {
+    position: relative;
+    padding: 15px 0;
+    display: block;
+    user-select: none;
+    pointer-events: none;
 }
- .switch-button-checkbox + .switch-button-label:before {
-	 content: "";
-	 background: #fff;
-	 height: 100%;
-	 width: 100%;
-	 position: absolute;
-	 left: 0;
-	 top: 0;
-	 border-radius: 30px;
-	 transform: translateX(0);
-	 transition: transform 300ms;
+.switch-button-checkbox + .switch-button-label:before {
+    content: "";
+    background: #fff;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 30px;
+    transform: translateX(0);
+    transition: transform 300ms;
 }
- .switch-button-checkbox + .switch-button-label .switch-button-label-span {
-	 position: relative;
+.switch-button-checkbox + .switch-button-label .switch-button-label-span {
+    position: relative;
 }
 
 .creacion{   
@@ -374,7 +392,7 @@ tbody{
     align-content: center;
     justify-content: center;
     align-items: center;
-    
+
 }
 
 .creacion h1{
@@ -404,7 +422,7 @@ tbody{
 }
 
 .colorFondo{
-    
+
     background: hsla(248, 87%, 36%, 1);
 
     background: linear-gradient(90deg, hsla(248, 87%, 36%, 1) 0%, hsla(0, 0%, 19%, 1) 100%);
@@ -430,56 +448,63 @@ tbody{
 }
 
 button {
-      width: 150px;
-      height: 50px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      background: red;
-      border: none;
-      border-radius: 5px;
-      box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-      background: #303030;
-      color: white;
-  }
-  
-  button, button span {
-      transition: 200ms;
-  }
-  
-  button .text {
-      transform: translateX(35px);
-      color: white;
-      font-weight: bold;
-  }
-  
-  button .icon {
-      position: absolute;
-      border-left: 1px solid white;
-      transform: translateX(110px);
-      height: 40px;
-      width: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
-  
-  button svg {
-      width: 15px;
-      fill: #eee;
-  }
-  
-  
-  button:hover .text {
-      color: transparent;
-  }
-  
-  button:hover .icon {
-      width: 150px;
-      border-left: none;
-      transform: translateX(0);
-  }
-  
-  button:focus {
-      outline: none;
-  }
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: red;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #303030;
+    color: white;
+}
+
+button, button span {
+    transition: 200ms;
+}
+
+button .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+}
+
+button .icon {
+    position: absolute;
+    border-left: 1px solid white;
+    transform: translateX(110px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button svg {
+    width: 15px;
+    fill: #eee;
+}
+
+
+button:hover .text {
+    color: transparent;
+}
+
+button:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(0);
+}
+
+button:focus {
+    outline: none;
+}
+
+#nota_recomendacion{
+    width: 80%;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}

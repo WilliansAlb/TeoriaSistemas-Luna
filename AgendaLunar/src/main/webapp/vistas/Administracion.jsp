@@ -39,11 +39,12 @@
         <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
             <div class="container"><a class="navbar-brand" href="../index.jsp"><img src="../assets/img/icono1.png" width="40px">Agenda Lunar</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item nav-link"><a class="nav-link active" href="/AgendaLunar">TS INFO</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Blog.jsp">BLOG</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Login</a></li>
-                        <li class="nav-item nav-link"><a class="nav-link" href="Cuenta.jsp">Cuenta</a></li>
+                    <ul class="navbar-nav ms-auto">                        
+                        <li class="nav-item nav-link"><a class="nav-link active" href="#" >Principal</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="Calendario.jsp">Calendario</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="Muro.jsp">Muro Privado</a></li>
+                        <li class="nav-item nav-link"><a class="nav-link" href="MuroPublico.jsp">Muro Publico</a></li>                        
+                        <li class="nav-item nav-link"><a class="nav-link" href="Login.jsp">Cerrar Sesion</a></li>               
                     </ul>
                 </div>
             </div>
@@ -56,28 +57,27 @@
                     <img src="../assets/img/o3.png">
                     <h1>USUARIOS</h1>
                     <hr style="width:50%">
-                    <a><span>Crear usuario</span></a>
+                    <a href="CrearUsuario.jsp"><span>Crear usuario</span></a>
                     <a href="/AgendaLunar/MostrarUsuarios"><span>Listar usuarios</span></a>
                     </div>
                     <div>
                         <img src="../assets/img/o2.png">
                         <h1>Calendario</h1>
-                        <hr style="width:50%">
-                        <a><span>Crear evento</span></a>
-                        <a><span>Ver calendario</span></a>
+                        <hr style="width:50%">                        
+                        <a href="Calendario.jsp"><span>Ver calendario</span></a>
                     </div>
                     <div>
                         <img src="../assets/img/o1.png">
                         <h1>Blog</h1>
                         <hr style="width:50%">
-                        <a><span>Crear publicación</span></a>
+                        <a href="Muro.jsp"><span>Ver Muro Personal</span></a>
+                        <a href="MuroPublico.jsp"><span>Ver Muro Publico</span></a>
                     </div>
                     <div>
                         <img src="../assets/img/o4.png">
                         <h1>Siembras</h1>
                         <hr style="width:50%">
-                        <a><span>Crear siembra</span></a>
-                        <a><span>Listar siembras</span></a>
+                        <a href="Siembras.jsp"><span>Administrar Siembras</span></a>                        
                     </div>
                 </div>
             </div>

@@ -103,11 +103,17 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
     ahref1.classList = "agregar";
     ahref1.onclick = function () {
         var padre1 = this.parentNode;
+        var padre2 = padre1.parentNode.querySelectorAll(".moon")[0];
         var day = padre1.querySelectorAll(".dia")[0];
         var fecha = obtener_mes_anio();
         var fecha1 = fecha.anio + "-" + fecha.mes + "-" + day.textContent;
         document.getElementById("dia_crear").textContent = fecha1;
         $("#oculto2").show();
+        document.getElementById("temp-moon").innerHTML = "";
+        document.getElementById("temp-moon").innerHTML = padre2.innerHTML;
+        var localizado = (fase!=-1)?fase:7;
+        document.getElementById("temp-fase").value = localizado;
+        ver_recomendacion();
     };
     //spanA1.classList = "num";
     //spanA1.textContent = "+";
@@ -122,6 +128,7 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
     spanTexto.classList = "texto-luna";
     spanTexto.textContent = fase_texto.toUpperCase();
     spanTexto.style.fontSize = "8px";
+    
     var divMoon = document.createElement("div");
     divMoon.classList = "moon";
     var divDisc = document.createElement("div");
@@ -157,7 +164,12 @@ function crearDiv(dia, opacidad, fase, fase_texto, actual, repeticiones) {
 }
 
 function pintarFase(fase, luna, disco, repeticion) {
-    var multiplicador = repeticion * (10 - repeticion);
+    var multiplicador = 1;
+    if (fase<5 && fase!=-1){
+        multiplicador = repeticion * (15 - repeticion);
+    } else {
+        multiplicador = repeticion * (5 - repeticion);
+    }
     var escritura = 0;
     switch (fase) {
         case 0:
@@ -195,6 +207,7 @@ function pintarFase(fase, luna, disco, repeticion) {
             luna.style.transform = "rotateZ(180deg)";
             disco.style.transform = "rotateY(" + escritura + "deg)";
             break;
+        case -1:
         case 7:
             escritura = 45 - multiplicador;
             luna.style.transform = "rotateZ(180deg)";
@@ -225,11 +238,11 @@ function obtenerFaseLunar(year, month, day) {
 
     jd -= b; //subtract integer part to leave fractional part of original jd
 
-    console.log("---" + jd);
+    //console.log("---" + jd);
     bc = Math.round(jd * 100); //scale fraction from 0-8 and round
-    console.log("---" + bc + "% en dia " + day);
+    //console.log("---" + bc + "% en dia " + day);
     b = Math.round(jd * 8); //scale fraction from 0-8 and round
-    console.log("---" + b);
+    //console.log("---" + b);
     //var a = Math.round(jd * 27); //scale fraction from 0-8 and round
     //console.log("---"+b+" day" + day);
     if (b >= 8) {
@@ -281,13 +294,13 @@ function obtenerFaseLunar2(year, month, day) {
 
     jd -= b; //subtract integer part to leave fractional part of original jd
 
-    console.log("---" + jd);
+    //console.log("---" + jd);
     b = parseInt(jd); //int(jd) -> b, take integer part of jd
 
     b = Math.round(jd * 8); //scale fraction from 0-8 and round
 
     var a = Math.round(jd * 27); //scale fraction from 0-8 and round
-    console.log("---" + b + " day" + day);
+    //console.log("---" + b + " day" + day);
     if (b >= 8) {
         b = 0; //0 and 8 are the same so turn 8 into 0
     }
@@ -437,4 +450,350 @@ function cambioFecha() {
     }
 
     solicitarEventos(mes + 1, anio);
+}
+
+function getRecomendacion(fase, cultivo) {
+    /*
+     creciente -> 2,1
+     
+     llena -> 4
+     
+     meguante -> 6
+     
+     nuevo -> 0
+     
+     descendente ->7
+     
+     ascendente -> 5,3
+     */
+    var recomendacion = "No hay recomendacion disponible";
+    switch (cultivo) {
+        case "Raices y tuberculos":
+        {
+            switch (parseInt(fase)) {
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 6:
+                {
+                    return "Seguir cultivando y abonar los que ya esten";
+                }
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Es un buen momento para el reposo";
+                }
+            }
+            break;
+        }
+        case "cerales":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Es un buen momento para el reposo";
+                }
+            }
+            break;
+        }
+        case "Leguminosas":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Es un buen momento para el reposo";
+                }
+            }
+            break;
+        }
+        case "Oleaginosas":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Es un buen momento para el reposo";
+                }
+            }
+            break;
+        }
+        case "Hortalizas":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Seguir cultivando mas hortalizas";
+                }
+
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para cosechar";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable cosechar";
+                }
+            }
+            break;
+        }
+        case "Frutales":
+        {
+
+            switch (fase) {
+                case 2:
+                case 1:
+                {
+                    return "Podar y sembrar mas frutales";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Seguir cultivando mas frutos";
+                }
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+            }
+            break;
+        }
+        case "Ornamentales":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Seguir cultivando mas ornamentales";
+                }
+            }
+            break;
+        }
+        case "Medicinales":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Seguir cultivando mas ornamentales";
+                }
+            }
+            break;
+        }
+        case "Tropicales":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Periodo de reposo,no es buen momento para trabajar la tierra";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 0:
+                {
+                    return "Recomendable realizar limpieza";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Es un buen momento para el reposo";
+                }
+            }
+            break;
+        }
+        case "Pasto":
+        {
+            switch (fase) {
+                case 4:
+                {
+                    return "Eliminar las plantas espontaneas";
+                }
+                case 0:
+                {
+                    return "Retirar plantas espontaneas, podas";
+                }
+                case 2:
+                case 1:
+                {
+                    return "Buen momento para aplicar fertilizantes y tratamientos preventivos";
+                }
+                case 6:
+                {
+                    return "Limpiar y mantener la siembra, recomendable colocar abono";
+                }
+                case 7:
+                {
+                    return "Recomendable aplicar fertilizante y cuidar la tierra";
+                }
+                case 5:
+                case 3:
+                {
+                    return "Recomendable arrancar los esquejes";
+                }
+            }
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+    return recomendacion;
 }

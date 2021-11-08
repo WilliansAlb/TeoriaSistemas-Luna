@@ -6,26 +6,21 @@
 package servlet;
 
 import Conexion.ConnectionDB;
-import Conexion.ControlDBUsuario;
-import POJOS.Usuario;
+import Conexion.ControlDBEventos;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author sergi
+ * @author willi
  */
-@WebServlet(name = "MostrarUsuarios", urlPatterns = {"/MostrarUsuarios"})
-public class MostrarUsuarios extends HttpServlet {
+public class Estadisticas extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,7 +34,18 @@ public class MostrarUsuarios extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.getRequestDispatcher("/vistas/ListaUsuarios.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Estadisticas</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Estadisticas at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -54,17 +60,39 @@ public class MostrarUsuarios extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Conectar a la DB
-        ConnectionDB connectionDB = new ConnectionDB();
-        Connection connection = connectionDB.getConnection();
-        
-        ControlDBUsuario controlDBUsuario = new ControlDBUsuario(connection);
-        List<Usuario> usuarios = controlDBUsuario.getTodosUsuarios();
-        Gson gn = new Gson();
-        String json = gn.toJson(usuarios);
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
-        response.getWriter().write(json);
+        ConnectionDB cn = new ConnectionDB();
+        ControlDBEventos cdb = new ControlDBEventos(cn.getConnection());
+        if (request.getParameter("porcentajes")!=null){
+            response.setContentType("application/json");
+            Gson gn = new Gson(); 
+            ArrayList<String> ho = cdb.porcentajes(request.getSession().getAttribute("usuario").toString());
+            if (ho.size()>0){
+                String json = gn.toJson(ho);
+                response.getWriter().write(json);
+            } else {
+                response.getWriter().write("{\"ERROR\":\"true\"}");
+            }
+        } else if (request.getParameter("tendencias")!=null){
+            response.setContentType("application/json");
+            Gson gn = new Gson(); 
+            ArrayList<String> ho = cdb.tendencias(request.getSession().getAttribute("usuario").toString());
+            if (ho.size()>0){
+                String json = gn.toJson(ho);
+                response.getWriter().write(json);
+            } else {
+                response.getWriter().write("{\"ERROR\":\"true\"}");
+            }
+        } else if (request.getParameter("eventos")!=null){
+            response.setContentType("application/json");
+            Gson gn = new Gson(); 
+            ArrayList<String> ho = cdb.eventos_por_mes(request.getSession().getAttribute("usuario").toString());
+            if (ho.size()>0){
+                String json = gn.toJson(ho);
+                response.getWriter().write(json);
+            } else {
+                response.getWriter().write("{\"ERROR\":\"true\"}");
+            }
+        }
     }
 
     /**
@@ -78,15 +106,6 @@ public class MostrarUsuarios extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Iniciando proceso de listar todos los usuarios");
-        
-        //Conectar a la DB
-        ConnectionDB connectionDB = new ConnectionDB();
-        Connection connection = connectionDB.getConnection();
-        
-        ControlDBUsuario controlDBUsuario = new ControlDBUsuario(connection);
-        List<Usuario> usuarios = controlDBUsuario.getTodosUsuarios();
-        request.setAttribute("usuarios", usuarios);
         processRequest(request, response);
     }
 

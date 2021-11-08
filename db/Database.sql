@@ -5,10 +5,10 @@ DROP TABLE IF EXISTS etiqueta_publicacion;
 DROP TABLE IF EXISTS etiqueta;
 DROP TABLE IF EXISTS comentario;
 DROP TABLE IF EXISTS publicacion;
-DROP TABLE IF EXISTS cultivo;
-DROP TABLE IF EXISTS lugar;
 DROP TABLE IF EXISTS eventos;
 DROP TABLE IF EXISTS siembra;
+DROP TABLE IF EXISTS cultivo;
+DROP TABLE IF EXISTS lugar;
 DROP TABLE IF EXISTS usuario;
 
 /*usuario*/
@@ -33,10 +33,12 @@ CREATE TABLE cultivo(
 DROP TABLE IF EXISTS lugar;
 CREATE TABLE lugar(
     id int NOT NULL AUTO_INCREMENT,
+    id_usuario varchar(255) NOT NULL,   
     nombre varchar(255) NOT NULL,
     ubicacion varchar(255) NOT NULL,
-    clima varchar(255) NOT NULL,
-    PRIMARY KEY (id)
+    clima varchar(255) NOT NULL, 
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(nombreusuario)
 );
 
 /*siembra*/

@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,11 +130,73 @@ public class ControlDBEventos {
         return eventos;
     }
 
+    public int insertarCultivo(String tipo) {
+        int exitoso = -1;
+
+        String query = "INSERT INTO cultivo (tipo) VALUES (?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query,
+                Statement.RETURN_GENERATED_KEYS);) {
+            statement.setString(1, tipo);
+            statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    exitoso = generatedKeys.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            exitoso = -1;
+        }
+        return exitoso;
+    }
+    
+    public String obtenerNombreCultivo(int id_siembra){
+        String query = "SELECT c.tipo FROM cultivo AS c, siembra AS s WHERE s.id = ? AND s.id_cultivo = c.id;";
+        String retorno = "";
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setInt(1, id_siembra);
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                retorno = result.getString(1);
+            }
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return retorno;
+    }
+    
+    public int insertarLugar(String usuario, String nombre, String ubicacion, String clima) {
+        int exitoso = -1;
+
+        String query = "INSERT INTO lugar (id_usuario,nombre,ubicacion,clima) VALUES (?,?,?,?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query,
+                Statement.RETURN_GENERATED_KEYS);) {
+            statement.setString(1, usuario);
+            statement.setString(2, nombre);
+            statement.setString(3, ubicacion);
+            statement.setString(4, clima);
+            statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    exitoso = generatedKeys.getInt(1);
+                } 
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            exitoso = -1;
+        }
+        return exitoso;
+    }
+
     public boolean insertarEventoSiembra(String idUsuario, String nombre, String fechaEvento, String descripcion, String tipo, String idLugar, String idCultivo) {
         boolean exitoso = true;
 
         //Inserta la siembra
-        boolean siembraInsertada = insertarSiembra(idLugar, idCultivo, fechaEvento, nombre,idUsuario);
+        boolean siembraInsertada = insertarSiembra(idLugar, idCultivo, fechaEvento, nombre, idUsuario);
         if (siembraInsertada) {
 
             //get id ultima siembra
@@ -164,7 +227,7 @@ public class ControlDBEventos {
         return exitoso;
     }
 
-    public boolean insertarEventoPorIdSiembra(String idUsuario, String nombre, String fechaEvento, String descripcion, String tipo,int idSiembra) {
+    public boolean insertarEventoPorIdSiembra(String idUsuario, String nombre, String fechaEvento, String descripcion, String tipo, int idSiembra) {
         boolean exitoso = true;
 
         //Inserta el evento 
@@ -189,7 +252,7 @@ public class ControlDBEventos {
         return exitoso;
     }
 
-    public boolean insertarSiembra(String idLugar, String idCultivo, String fechaSiembra, String nombre,String idUsuario) {
+    public boolean insertarSiembra(String idLugar, String idCultivo, String fechaSiembra, String nombre, String idUsuario) {
         boolean exitoso = true;
 
         String query = "INSERT INTO siembra (id_lugar,id_cultivo,fechaSiembra,cosechado,nombre,id_usuario) VALUES (?,?,?,0,?,?)";
@@ -301,22 +364,24 @@ public class ControlDBEventos {
         }
         return lugares;
     }
-    
+
     /**
-     * Obtiene todas las siembras que tiene un usuario
-     * Devuelve la siembra con su id,nombre de Lugar, nombre de Cultivo, valor de cosechado,nombre de la siembra, y el id usuario
+     * Obtiene todas las siembras que tiene un usuario Devuelve la siembra con
+     * su id,nombre de Lugar, nombre de Cultivo, valor de cosechado,nombre de la
+     * siembra, y el id usuario
+     *
      * @param idUsuario
      * @return
      */
-    public List<Siembra> getTodasLasSiembrasPorUsuario(String idUsuario){
-        List<Siembra> siembras = new ArrayList<>();        
+    public List<Siembra> getTodasLasSiembrasPorUsuario(String idUsuario) {
+        List<Siembra> siembras = new ArrayList<>();
         String query = "SELECT s.id,l.nombre,c.tipo,s.fechaSiembra,s.cosechado,s.nombre,s.id_usuario FROM siembra AS s INNER JOIN lugar AS l INNER JOIN cultivo AS c WHERE s.id_lugar = l.id AND s.id_cultivo = c.id AND s.id_usuario = ?";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
-            preSt.setString(1, idUsuario);      
+            preSt.setString(1, idUsuario);
             ResultSet result = preSt.executeQuery();
             while (result.next()) {
-                Siembra siembra = new Siembra();                
+                Siembra siembra = new Siembra();
                 siembra.setIdSiembra(result.getString(1));
                 siembra.setIdLugar(result.getString(2));
                 siembra.setIdCultivo(result.getString(3));
@@ -332,39 +397,102 @@ public class ControlDBEventos {
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        
+
         return siembras;
     }
-    
+
     /**
-     * Actualiza la siembra a tipo de cosechado 1, osea que esta cosechada esa cosa pues
+     * Actualiza la siembra a tipo de cosechado 1, osea que esta cosechada esa
+     * cosa pues
+     *
      * @param idSiembra
      * @return
      */
-    public boolean actualizarSiembraCosechar(int idSiembra){
+    public boolean actualizarSiembraCosechar(int idSiembra) {
         boolean exitoso = true;
 
         String query = "UPDATE siembra SET cosechado = 1 WHERE id = ?";
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
-                preSt.setInt(1, idSiembra);               
+            preSt.setInt(1, idSiembra);
 
-                preSt.executeUpdate();
+            preSt.executeUpdate();
 
-                preSt.close();
-            } catch (SQLException e) {
-                System.out.println("Error: " + e.getMessage());
-                exitoso = false;
-            }
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+            exitoso = false;
+        }
 
         return exitoso;
     }
     
-    public ArrayList<List<String>> datos_siembras(String usuario){
-        ArrayList<List<String>> siembras = new ArrayList<>();        
+    public ArrayList<String> porcentajes(String usuario){
+        ArrayList<String> siembras = new ArrayList<>();
+        String query = "SELECT id_usuario, CONCAT( ROUND((( SELECT COUNT(*) FROM eventos WHERE id_usuario = ? AND id_siembra IS NULL ) / COUNT(*) * 100 ),\n" +
+"         2 ), '%') AS porcentaje1, CONCAT( ROUND(( (SELECT COUNT(*) FROM eventos WHERE id_siembra IS NOT NULL AND id_usuario = ?)  / COUNT(*) * 100 ),\n" +
+"         2 ), '%') AS porcentaje2 FROM eventos WHERE id_usuario = ?;";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, usuario);
+            preSt.setString(2, usuario);
+            preSt.setString(3, usuario);
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                siembras.add(result.getString(1));
+                siembras.add(result.getString(2));
+                siembras.add(result.getString(3));
+            }
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return siembras;
+    }
+    
+    public ArrayList<String> tendencias(String usuario){
+    ArrayList<String> siembras = new ArrayList<>();
+        String query = "SELECT cu.tipo, (SELECT COUNT(*) FROM cultivo AS c, siembra AS s WHERE s.id_cultivo = cu.id AND cu.id = c.id AND s.id_usuario = ?)"
+                + " AS cuanto FROM cultivo AS cu GROUP BY cu.id;";
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, usuario);
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                siembras.add(result.getString(1));
+                siembras.add(result.getString(2));
+            }
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return siembras;
+    }
+    
+    public ArrayList<String> eventos_por_mes(String usuario){
+    ArrayList<String> siembras = new ArrayList<>();
+        String query = "SELECT MonthName(fechaEvento) AS mes, count(*) AS numFilas FROM eventos WHERE id_usuario = ? GROUP BY mes;";
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, usuario);
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                siembras.add(result.getString(1));
+                siembras.add(result.getString(2));
+            }
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return siembras;
+    }
+
+    public ArrayList<List<String>> datos_siembras(String usuario) {
+        ArrayList<List<String>> siembras = new ArrayList<>();
         String query = "SELECT s.id, l.nombre, c.tipo, s.nombre, s.fechaSiembra, s.cosechado FROM cultivo AS c, siembra AS s, lugar AS l WHERE c.id = s.id_cultivo AND l.id = s.id_lugar AND s.id_usuario = ? ;";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
-            preSt.setString(1, usuario);      
+            preSt.setString(1, usuario);
             ResultSet result = preSt.executeQuery();
             while (result.next()) {
                 List<String> datos = new ArrayList<>();
