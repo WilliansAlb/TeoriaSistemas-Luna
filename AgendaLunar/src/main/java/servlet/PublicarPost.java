@@ -60,10 +60,10 @@ public class PublicarPost extends HttpServlet {
         ConnectionDB connect = new ConnectionDB();
         Connection connection = connect.getConnection();
         ControlDBPublicacion ControlP2 = new ControlDBPublicacion(connection);
-        System.out.println("PUBLICARRRRRRRRRRRRRRR------------/-/-/-/-/-/5");
+
         try {
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-            System.out.println("PUBLICARRRRRRRRRRRRRRR------------/-/-/-/-/-/6");
+            System.out.println("PUBLICARRRRRRRRRRRRRRR------------/-/-/-/-/-/");
             System.out.println(timeStamp);
             System.out.println(ID);
             System.out.println(texto);

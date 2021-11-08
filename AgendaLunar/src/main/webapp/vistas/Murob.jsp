@@ -75,7 +75,13 @@
                                 if (publicaciones.size() > 0) {
                                     for (Publicacion my_post : publicaciones) {
                         %>
-                        <div class="card single_post">
+                        <div id="POST_CARD<%=my_post.getIdPublicacion()%>" class="card single_post">
+                            <div align="right" class="dropdown">
+                                <button class="btn btn-outline-danger dropdown-toggle" type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown">Eliminar</button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" onclick="eliminarPost('<%=my_post.getIdPublicacion()%>');">Eliminar</a>
+                                </div>
+                            </div>
                             <div class="body">
                                 <!--<h3><a href="">Posible titulo</a></h3>-->
                                 <p> <%=my_post.getContenido()%> </p>
@@ -263,7 +269,9 @@
         <script src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/grayscale.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/tag.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/EliminarPost.js"></script>
         <script src="${pageContext.request.contextPath}/assets/js/Publicar.js"></script>
+        <script src="${pageContext.request.contextPath}/assets/js/EliminarPost.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </body>
 

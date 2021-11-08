@@ -40,12 +40,7 @@ String ID;
         response.setContentType("text/html;charset=UTF-8");
         
         try (PrintWriter out = response.getWriter()) {
-             ID= request.getParameter("usuario");
-             ID="mcoupe1";
-             System.out.println(ID);
-             doPost(request,response);
-            //request.setAttribute("USER", USER);
-            //request.getRequestDispatcher("/PagesGerente/CrearGerente.jsp").forward(request, response);
+
         }
     }
 
@@ -61,23 +56,23 @@ String ID;
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                
-                List<Publicacion> publicaciones = new ArrayList<>();
-                
-                
-                //establece la conexion a la DB
-                ConnectionDB connect = new ConnectionDB();
-                Connection connection = connect.getConnection();
-                
-                ControlDBPublicacion ControlP=new ControlDBPublicacion(connection);
-                //obtiene las publicaciones 
-                publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
-                //obtiene las etiquetas
-                
-                request.getSession().setAttribute("usuario", ID);
-                request.setAttribute("CON", connection);
-                
-                request.setAttribute("PUBLICACIONES", publicaciones);
-                request.getRequestDispatcher("vistas/Muro.jsp").forward(request, response);
+//                List<Publicacion> publicaciones = new ArrayList<>();
+//                
+//                
+//                //establece la conexion a la DB
+//                ConnectionDB connect = new ConnectionDB();
+//                Connection connection = connect.getConnection();
+//                
+//                ControlDBPublicacion ControlP=new ControlDBPublicacion(connection);
+//                //obtiene las publicaciones 
+//                publicaciones = ControlP.getTodasPublicacionesPorNombreUsuario(ID);
+//                //obtiene las etiquetas
+//                
+//                request.getSession().setAttribute("usuario", ID);
+//                request.setAttribute("CON", connection);
+//                
+//                request.setAttribute("PUBLICACIONES", publicaciones);
+//                request.getRequestDispatcher("vistas/Muro.jsp").forward(request, response);
                 
         
         
