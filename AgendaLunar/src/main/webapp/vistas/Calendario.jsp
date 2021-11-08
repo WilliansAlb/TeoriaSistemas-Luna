@@ -4,6 +4,8 @@
     Author     : willi
 --%>
 
+<%@page import="POJOS.Siembra"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="POJOS.Cultivo"%>
 <%@page import="POJOS.Lugar"%>
 <%@page import="java.util.List"%>
@@ -35,9 +37,10 @@
     <body>
         <%
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+            ConnectionDB cn = new ConnectionDB();
             if (session.getAttribute("usuario") == null) {
                 response.sendRedirect("/AgendaLunar/vistas/Login.jsp");
-            }
+            } else {
         %>
         <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav">
             <div class="container"><a class="navbar-brand" href="../index.jsp"><img src="../assets/img/icono1.png" width="40px">Agenda Lunar</a><button data-bs-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-bs-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" value="Menu"><i class="fa fa-bars"></i></button>
@@ -113,7 +116,7 @@
                 <button onclick="this.parentNode.parentNode.style.display = 'none';" style="background-color: red;width: fit-content;height: fit-content;padding: 1em">CERRAR</button>
             </div>
         </div>
-        <div class="oculto" id="oculto2" style="display: none;">
+        <div class="oculto" id="oculto2">
             <div id="creacion">
                 <div class="creacion">
                     <h1>CREAR EVENTO</h1>
@@ -124,34 +127,62 @@
                     <h1>EN LA FECHA <span id="dia_crear">2021-10-21</span></h1>
                 </div>
                 <hr width="100%">
-                <div id="creacion_siembra" class="creacion2" style="display:none;">
-                    <h1 style="font-size: 1.5em; margin: 0;">Datos de siembra</h1>
-                    <span>Lugar:</span>
-                    <select name="lugares" id="lugares">
-                        <%
-                            ConnectionDB cn = new ConnectionDB();
-                            ControlDBEventos ctr = new ControlDBEventos(cn.getConnection());
-                            List<Lugar> lugares = ctr.getTodosLugares();
-                            for (int i = 0; i < lugares.size(); i++) {
-                        %>
-                        <option value="<%out.print(lugares.get(i).getIdLugar());%>"><%out.print(lugares.get(i).getNombre() + "-" + lugares.get(i).getUbicacion());%></option>
-                        <%
-                            }
-                        %>
-                    </select>
-                    <span>Cultivo:</span>
-                    <select name="cultivos" id="cultivos">
-                        <%
-                            List<Cultivo> cultivos = ctr.getTodosLosTiposDeCultivos();
-                            for (int i = 0; i < lugares.size(); i++) {
-                        %>
-                        <option value="<%out.print(cultivos.get(i).getIdCultivo());%>"><%out.print(cultivos.get(i).getTipo());%></option>
-                        <%
-                            }
-                        %>
-                    </select>
+                <div id="creacion_siembra" class="creacion2" style="display:none; flex-wrap: wrap;">
+                    <div id="selector-siembra" class="creacion2" style="width: 80%;">
+                        <span>¿A qué siembra pertenece?</span>
+                        <select name="siembras" id="siembras" onchange="cambiando_select(this,'siembra_nueva','seleccion_siembra')">
+                            <option value="-1">NUEVA SIEMBRA</option>
+                            <%
+                                ControlDBEventos ctr = new ControlDBEventos(cn.getConnection());
+                                List<Siembra> siembras = ctr.getTodasLasSiembrasPorUsuario("Admin");
+                                for (int i = 0; i < siembras.size(); i++) {     
+                            %>
+                            <option value="<%out.print(siembras.get(i).getIdSiembra());%>"><%out.print(siembras.get(i).getNombre()+" - "+siembras.get(i).getFechaSiembra());%></option>
+                            <%}%>
+                        </select>
+                    </div>
+                    <div id="siembra_nueva" class="creacion2" style="width: 80%;">
+                        <h1 style="font-size: 1.5em; margin: 0;">Datos de siembra nueva</h1>
+                        <label for="lugares">Lugar:</label>
+                        <select name="lugares" id="lugares">
+                            <%                                
+                                List<Lugar> lugares = ctr.getTodosLugares(session.getAttribute("usuario").toString());
+                                for (int i = 0; i < lugares.size(); i++) {
+                            %>
+                            <option value="<%out.print(lugares.get(i).getIdLugar());%>"><%out.print(lugares.get(i).getNombre() + "-" + lugares.get(i).getUbicacion());%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                        <label for="cultivos">Cultivo:</label>
+                        <select name="cultivos" id="cultivos">
+                            <%
+                                List<Cultivo> cultivos = ctr.getTodosLosTiposDeCultivos();
+                                for (int i = 0; i < lugares.size(); i++) {
+                            %>
+                            <option value="<%out.print(cultivos.get(i).getIdCultivo());%>"><%out.print(cultivos.get(i).getTipo());%></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>
+                    <div id="seleccion_siembra" class="creacion2" style="display: none; width: 80%;">
+                        <label for="tipo_evento_siembra">¿Qué se le hará a la siembra?</label>
+                        <select name="evt_siembra" id="evt_siembra" onchange="cambiando_select(this,'otro_tipo','')">
+                            <option value="fertilizacion">fertilizar</option>
+                            <option value="riego">regar</option>
+                            <option value="cosecha">cosechar</option>
+                            <option value="raleo">ralear</option>
+                            <option value="transplante">transplantar</option>
+                            <option value="-1">otro</option>
+                        </select>
+                        <div id="otro_tipo" style="display: none; flex-direction: column;">
+                            <label for="hacer_siembra">Escribe acá lo que se le hará a la siembra</label>
+                            <input type="text" id="hacer_siembra" name="hacer_siembra">
+                        </div>
+                    </div>
                 </div>
-                <div id="creacion_evento" class="creacion2" style="">
+                <div id="creacion_evento" class="creacion2" >
                     <h1 style="font-size: 1.5em; margin: 0;">Datos de evento</h1>
                     <span>Nombre:</span>
                     <input type="text" id="nombre_evento">
@@ -165,7 +196,7 @@
                             <option value="3">3</option>
                         </select>
                     </div>
-                    <div id="evento_id" style="width:100%;">
+                    <div id="evento_id" style="width:100%; flex-direction: column; display:flex;">
                         <span>¿Que tipo de evento es?</span>
                         <input type="text" id="tipo_evento">
                     </div>
@@ -185,5 +216,6 @@
         <script src="../assets/js/luna.js"></script>
         <script src="../assets/js/calendario.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <%}%>
     </body>
 </html>

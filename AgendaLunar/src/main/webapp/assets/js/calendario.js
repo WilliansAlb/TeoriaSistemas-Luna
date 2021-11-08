@@ -150,9 +150,26 @@ function crear_evento() {
         alert("Rellena los campos");
     } else {
         if (es.checked) {
-            var cult = document.getElementById("cultivos").value;
-            var luga = document.getElementById("lugares").value;
-            crear_evento_siembra(nom, des, dim, cult, luga);
+            //acá van los eventos que si son tipo siembra
+            var s1 = document.getElementById("siembras").value;
+            if (s1 == -1) {
+                var cult = document.getElementById("cultivos").value;
+                var luga = document.getElementById("lugares").value;
+                crear_evento_siembra(nom, des, dim, cult, luga);
+            } else {
+                var s2 = document.getElementById("evt_siembra").value;
+                if (s2==-1){
+                    var hacer_siembra = document.getElementById("hacer_siembra").value;
+                    if (hacer_siembra==''){
+                        alert("Ingresa lo que se le hará a la siembra");
+                        return;
+                    } else {
+                        crear_evento_id_siembra(nom, des, dim, s1, hacer_siembra);
+                    }
+                } else {
+                    crear_evento_id_siembra(nom, des, dim, s1, s2);
+                }
+            }
         } else {
             var tipo = document.getElementById("tipo_evento").value;
             if (tipo == "") {
@@ -160,6 +177,20 @@ function crear_evento() {
             } else {
                 crear_evento_normal(nom, des, tipo, dim);
             }
+        }
+    }
+}
+
+function cambiando_select(select, divmostrar, otrodiv) {
+    if (select.value == -1) {
+        document.getElementById(divmostrar).style.display = "flex";
+        if (otrodiv != '') {
+            document.getElementById(otrodiv).style.display = "none";
+        }
+    } else {
+        document.getElementById(divmostrar).style.display = "none";
+        if (otrodiv != '') {
+            document.getElementById(otrodiv).style.display = "flex";
         }
     }
 }
@@ -181,7 +212,7 @@ function crear_evento_normal(nombre, descripcion, tipo1, fecha) {
             }, 1000);
         },
         success: function (data) {
-            if (data.includes("ERROR")){
+            if (data.includes("ERROR")) {
                 document.getElementById("img_tipo").src = "../assets/img/o6.png";
                 $("#tipo_mensaje").text("ERROR");
                 $("#mensaje").text("Ha ocurrido un error inesperado");
@@ -215,7 +246,7 @@ function crear_evento_siembra(nombre, descripcion, fecha, cultivo, lugar) {
             }, 1000);
         },
         success: function (data) {
-            if (data.includes("ERROR")){
+            if (data.includes("ERROR")) {
                 document.getElementById("img_tipo").src = "../assets/img/o6.png";
                 $("#tipo_mensaje").text("ERROR");
                 $("#mensaje").text("Ha ocurrido un error inesperado");
@@ -230,6 +261,40 @@ function crear_evento_siembra(nombre, descripcion, fecha, cultivo, lugar) {
         }
     });
 }
+
+function crear_evento_id_siembra(nombre, descripcion, fecha, id_siembra, tipo) {
+    var data = {nombre: nombre, descripcion: descripcion, esSiembra: "true", fecha: fecha, id_siembra:id_siembra, tipo:tipo};
+    $.ajax({
+        type: "POST",
+        url: "../Calendario",
+        data: data,
+        beforeSend: function () {
+            $("#cargando").show();
+        },
+        complete: function (data) {
+            setTimeout(() => {
+                document.getElementById("cargando").style.display = "none";
+                document.querySelector(".contenedor-calendario").style.filter = "blur(0px)";
+                $("#oculto3").show();
+            }, 1000);
+        },
+        success: function (data) {
+            if (data.includes("ERROR")) {
+                document.getElementById("img_tipo").src = "../assets/img/o6.png";
+                $("#tipo_mensaje").text("ERROR");
+                $("#mensaje").text("Ha ocurrido un error inesperado");
+            } else {
+                document.getElementById("img_tipo").src = "../assets/img/o7.png";
+                $("#tipo_mensaje").text("INGRESO EXITOSO");
+                $("#mensaje").text("Se ha ingresado exitosamente el evento");
+            }
+        },
+        error: function (data) {
+            alert("Problemas al tratar de enviar el formulario");
+        }
+    });
+}
+
 
 function obtener_mes_anio() {
     var m = document.getElementById("mes").textContent.toLowerCase();

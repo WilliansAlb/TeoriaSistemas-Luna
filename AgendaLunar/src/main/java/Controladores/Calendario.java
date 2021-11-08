@@ -44,7 +44,7 @@ public class Calendario extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Calendario</title>");            
+            out.println("<title>Servlet Calendario</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Calendario at " + request.getContextPath() + "</h1>");
@@ -71,20 +71,20 @@ public class Calendario extends HttpServlet {
         ConnectionDB db = new ConnectionDB();
         ControlDBEventos ctdb = new ControlDBEventos(db.getConnection());
         List<Evento> eventos = new ArrayList<>();
-        if (request.getParameter("dia")!=null){
-            List<Evento> eventos_temp = ctdb.getTodosEventosPorIdUsuarioPorMes("Admin", mes, anio);
+        if (request.getParameter("dia") != null) {
+            List<Evento> eventos_temp = ctdb.getTodosEventosPorIdUsuarioPorMes(request.getSession().getAttribute("usuario").toString(), mes, anio);
             int di = Integer.parseInt(request.getParameter("dia"));
             for (int i = 0; i < eventos_temp.size(); i++) {
                 String[] s = eventos_temp.get(i).getFechaEvento().split("-");
                 int a = Integer.parseInt(s[0]);
                 int m = Integer.parseInt(s[1]);
                 int d = Integer.parseInt(s[2]);
-                if (d==di && m == mes && a == anio){
+                if (d == di && m == mes && a == anio) {
                     eventos.add(eventos_temp.get(i));
                 }
             }
         } else {
-            eventos = ctdb.getTodosEventosPorIdUsuarioPorMes("Admin", mes, anio);
+            eventos = ctdb.getTodosEventosPorIdUsuarioPorMes(request.getSession().getAttribute("usuario").toString(), mes, anio);
         }
         Gson gs = new Gson();
         String json = gs.toJson(eventos);
@@ -106,20 +106,44 @@ public class Calendario extends HttpServlet {
             throws ServletException, IOException {
         ConnectionDB db = new ConnectionDB();
         ControlDBEventos ctdb = new ControlDBEventos(db.getConnection());
-        if (request.getParameter("esSiembra").equalsIgnoreCase("true")){
-            System.out.println("llega acá");
-            if (ctdb.insertarEventoSiembra("Admin", request.getParameter("nombre"), request.getParameter("fecha"),
-                    request.getParameter("descripcion"),"siembra",request.getParameter("lugar"),request.getParameter("cultivo"))){
-                response.setContentType("text/plain");
-                response.getWriter().write("CORRECTO");
+        if (request.getParameter("esSiembra").equalsIgnoreCase("true")) {
+            if (request.getParameter("id_siembra") != null) {
+                int id_siembra = Integer.parseInt(request.getParameter("id_siembra"));
+                String tipo_siembra = request.getParameter("tipo");
+                boolean cosechado = (tipo_siembra.equalsIgnoreCase("cosecha"));
+                if (ctdb.insertarEventoPorIdSiembra(request.getSession().getAttribute("usuario").toString(), request.getParameter("nombre"), request.getParameter("fecha"),
+                        request.getParameter("descripcion"), tipo_siembra, id_siembra)) {
+                    if (cosechado) {
+                        if (ctdb.actualizarSiembraCosechar(id_siembra)) {
+                            response.setContentType("text/plain");
+                            response.getWriter().write("CORRECTO");
+                        } else {
+                            response.setContentType("text/plain");
+                            response.getWriter().write("ERROR");
+                        }
+                    } else {
+                        response.setContentType("text/plain");
+                        response.getWriter().write("CORRECTO");
+                    }
+                } else {
+                    response.setContentType("text/plain");
+                    response.getWriter().write("ERROR");
+                }
             } else {
-                response.setContentType("text/plain");
-                response.getWriter().write("ERROR");
+                if (ctdb.insertarEventoSiembra(request.getSession().getAttribute("usuario").toString(), request.getParameter("nombre"), request.getParameter("fecha"),
+                        request.getParameter("descripcion"), "siembra", request.getParameter("lugar"), request.getParameter("cultivo"))) {
+                    response.setContentType("text/plain");
+                    int idSiembra = ctdb.getUltimoIdSiembraInsertada();
+                    response.getWriter().write(""+idSiembra);
+                } else {
+                    response.setContentType("text/plain");
+                    response.getWriter().write("ERROR");
+                }
             }
         } else {
             System.out.println(request.getParameter("fecha"));
-            if (ctdb.insertarEventoNoSiembra("Admin", request.getParameter("nombre"), request.getParameter("fecha"),
-                    request.getParameter("descripcion"),request.getParameter("tipo"))){
+            if (ctdb.insertarEventoNoSiembra(request.getSession().getAttribute("usuario").toString(), request.getParameter("nombre"), request.getParameter("fecha"),
+                    request.getParameter("descripcion"), request.getParameter("tipo"))) {
                 response.setContentType("text/plain");
                 response.getWriter().write("CORRECTO");
             } else {
