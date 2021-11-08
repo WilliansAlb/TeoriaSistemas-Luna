@@ -3,6 +3,8 @@ window.onload = () => {
     const fecha = new Date();
     var calendario1 = document.querySelector("#contenedor-calendario");
     var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    document.getElementById("mes").textContent = meses[fecha.getMonth()].toUpperCase();
+    document.getElementById("anio").textContent = fecha.getFullYear();
     var dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
     var dia_actual = fecha.getDate();
     let mes = fecha.getMonth();

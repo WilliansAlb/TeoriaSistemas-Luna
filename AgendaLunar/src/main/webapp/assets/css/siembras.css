@@ -1,0 +1,48 @@
+#encabezado-siembras{
+    margin: auto;
+    /*background-color: rgb(255, 205, 205);*/
+    width: fit-content;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url(../img/siembras.jpg);
+    background-position: center;
+    background-size: cover;
+    padding: 0.5rem;
+    border-radius: 10px;
+    width: 100%;
+    color: white;
+}
+
+#fondo{
+    width: 100%;
+    background-image: url(../img/star-sky.jpg);
+    background-size: cover;
+    height: 100%;
+    position:fixed;
+    z-index: -100;
+    display: flex;
+}
+
+.contenedor{
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    width: 85%;
+}
+
+body{
+    background-image: url("../img/star-sky.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+
+.conte{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

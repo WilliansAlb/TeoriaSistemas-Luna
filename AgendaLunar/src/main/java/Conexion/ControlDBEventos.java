@@ -278,19 +278,19 @@ public class ControlDBEventos {
         return cultivos;
     }
 
-    public List<Lugar> getTodosLugares() {
+    public List<Lugar> getTodosLugares(String usuario) {
         List<Lugar> lugares = new ArrayList<>();
-        String query = "SELECT * FROM lugar";
+        String query = "SELECT * FROM lugar WHERE id_usuario = ?";
 
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
-
+            preSt.setString(1, usuario);
             ResultSet result = preSt.executeQuery();
             while (result.next()) {
                 Lugar lugar = new Lugar();
                 lugar.setIdLugar(result.getString(1));
-                lugar.setNombre(result.getString(2));
-                lugar.setUbicacion(result.getString(3));
-                lugar.setClima(result.getString(4));
+                lugar.setNombre(result.getString(3));
+                lugar.setUbicacion(result.getString(4));
+                lugar.setClima(result.getString(5));
                 lugares.add(lugar);
             }
 
@@ -341,12 +341,12 @@ public class ControlDBEventos {
      * @param idSiembra
      * @return
      */
-    public boolean actualizarSiembraCosechar(String idSiembra){
+    public boolean actualizarSiembraCosechar(int idSiembra){
         boolean exitoso = true;
 
         String query = "UPDATE siembra SET cosechado = 1 WHERE id = ?";
         try (PreparedStatement preSt = connection.prepareStatement(query);) {
-                preSt.setString(1, idSiembra);               
+                preSt.setInt(1, idSiembra);               
 
                 preSt.executeUpdate();
 
@@ -357,5 +357,31 @@ public class ControlDBEventos {
             }
 
         return exitoso;
+    }
+    
+    public ArrayList<List<String>> datos_siembras(String usuario){
+        ArrayList<List<String>> siembras = new ArrayList<>();        
+        String query = "SELECT s.id, l.nombre, c.tipo, s.nombre, s.fechaSiembra, s.cosechado FROM cultivo AS c, siembra AS s, lugar AS l WHERE c.id = s.id_cultivo AND l.id = s.id_lugar AND s.id_usuario = ? ;";
+
+        try (PreparedStatement preSt = connection.prepareStatement(query);) {
+            preSt.setString(1, usuario);      
+            ResultSet result = preSt.executeQuery();
+            while (result.next()) {
+                List<String> datos = new ArrayList<>();
+                datos.add(result.getString(1));
+                datos.add(result.getString(2));
+                datos.add(result.getString(3));
+                datos.add(result.getString(4));
+                datos.add(result.getString(5));
+                datos.add(result.getString(6));
+                siembras.add(datos);
+            }
+
+            result.close();
+            preSt.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return siembras;
     }
 }
